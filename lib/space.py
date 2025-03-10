@@ -13,3 +13,9 @@ class Space():
     
     def __repr__(self):
         return f"Space(ID: {self.id}, Name: {self.name}, Location: {self.location}, Description: {self.description}, Availability: {self.availability}, Price: {self.price_per_night}, User_ID: {self.user_id})"
+    
+    def become_available(self):
+        self.availability = True
+
+    def become_unavailable(self):
+        self.availability = False
