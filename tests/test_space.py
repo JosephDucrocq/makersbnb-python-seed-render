@@ -16,4 +16,4 @@ def test_2_identical_spaces_are_equal():
 
 def test_space_repr_looks_nice():
     space = Space(None, "Buckingham Palace", "London", "It's a palace", True, "£5", 1)
-    assert repr(space) == '''Space(None, Buckingham Palace, London, It's a palace, True, £5, 1)'''
+    assert repr(space) == '''Space(ID: None, Name: Buckingham Palace, Location: London, Description: It's a palace, Availability: True, Price: £5, User_ID: 1)'''
