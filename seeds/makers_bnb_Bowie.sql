@@ -15,7 +15,6 @@ CREATE TABLE users (
     username VARCHAR(255),
     password VARCHAR(255)
 );
-
 CREATE SEQUENCE IF NOT EXISTS spaces_id_seq;
 CREATE TABLE spaces (
     id SERIAL PRIMARY KEY,
