@@ -2,9 +2,9 @@ DROP TABLE IF EXISTS test_table;
 CREATE TABLE test_table (id SERIAL PRIMARY KEY, name VARCHAR(255));
 INSERT INTO test_table (name) VALUES ('first_record');
 
-DROP TABLE IF EXISTS space;
+DROP TABLE IF EXISTS spaces;
 DROP SEQUENCE IF EXISTS space_id_seq;
-DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS user_id_seq;
 
 -- Table creation below --
@@ -29,11 +29,10 @@ user_id int,
 constraint fk_user foreign key(user_id)
     references user(id)
     on delete cascade
-
 );
 
-INSERT INTO user (username, password) VALUES ('Luis', 'IloveTaylorSwift');
-INSERT INTO user (username, password) VALUES ('Joseph', 'Idoto');
+INSERT INTO users (username, password) VALUES ('Luis', 'IloveTaylorSwift');
+INSERT INTO users (username, password) VALUES ('Joseph', 'Idoto');
 
-INSERT INTO space (name, availability, location, description, price_per_night, user_id) VALUES ('Makers Villa', True, 'London', 'Beautiful refurbished industrial warehouse', 150, 1);
-INSERT INTO space (name, availability, location, description, price_per_night, user_id) VALUES ('Josephs farm', True, 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', 90, 2);
+INSERT INTO spaces (name, location, description, availability, price_per_night, user_id) VALUES ('Makers Villa', 'London', 'Beautiful refurbished industrial warehouse', True, 150, 1);
+INSERT INTO spaces (name, location, description, availability, price_per_night, user_id) VALUES ('Josephs farm', 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', True, 90, 2);
