@@ -18,7 +18,7 @@ class SpaceRepository():
         space = Space(row["id"], row['name'], row['location'], row['description'], row['availability'], row['price_per_night'], row['user_id'])
         return space
 
-    def create(self, space: Space) -> None:
+    def create(self, space) -> None:
         self._connection.execute('INSERT INTO spaces (name, location, description, availability, price_per_night, user_id) VALUES(%s, %s, %s, %s, %s, %s)', [space.name, space.location, space.description, space.availability, space.price_per_night, space.user_id])
 
     def delete(self, space_id: int) -> None:
