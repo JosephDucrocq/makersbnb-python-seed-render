@@ -35,5 +35,5 @@ constraint fk_user foreign key(user_id)
 INSERT INTO user (username, password) VALUES ('Luis', 'IloveTaylorSwift');
 INSERT INTO user (username, password) VALUES ('Joseph', 'Idoto');
 
-INSERT INTO space (name, ,availability, location, description, price_per_night) VALUES ('Makers Villa', True, 'London', 'Beautiful refurbished industrial warehouse', 150);
-INSERT INTO space (name, ,availability, location, description, price_per_night) VALUES ('Josephs farm', True, 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', 90);
+INSERT INTO space (name, availability, location, description, price_per_night, user_id) VALUES ('Makers Villa', True, 'London', 'Beautiful refurbished industrial warehouse', 150, 1);
+INSERT INTO space (name, availability, location, description, price_per_night, user_id) VALUES ('Josephs farm', True, 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', 90, 2);
