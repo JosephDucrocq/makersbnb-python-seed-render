@@ -17,6 +17,7 @@ app.secret_key = 'this_is_a_super_secret_key'
 # Try it:
 #   ; open http://localhost:5001/index
 
+# WELCOME ROUTES
 @app.route('/', methods=["GET"])
 def welcome():
     if session['username'] != None:
@@ -28,15 +29,10 @@ def welcome():
     else:
         username = "Not logged in"
         return render_template('welcome.html', username=username)
-    
-@app.route('/index', methods=['GET'])
-def get_index():
-    return render_template('index.html')
-
-
+# WELCOME ROUTES
+# REGISTER ROUTES
 @app.route('/register', methods=['GET'])
-def get_register():
-    connection = get_flask_database_connection(app)
+def display_register_page():
     return render_template('register_user.html')
 
 @app.route('/register', methods=['POST'])
@@ -57,11 +53,8 @@ def send_new_registration():
     else:
         return redirect('/register') 
 
-# @app.route('/index', methods=['GET'])
-# def get_all_spaces():
-#     connection = get_flask_database_connection(app)
-
-
+# REGISTER ROUTES
+# LOGIN ROUTES
 @app.route('/login', methods=['GET'])
 def display_login_prompt():
     return render_template('login.html')
@@ -79,11 +72,22 @@ def login():
     else:
         return redirect('/login')
 
+# LOGIN ROUTES
+# SPACES ROUTES
+@app.route('/spaces', methods=['GET'])
+def display_spaces_page():
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    spaces = repository.all()
+    return render_template('spaces.html', spaces=spaces)
+# SPACES ROUTES
+# LOGOUT ROUTES
 @app.route('/logout', methods=['GET'])
 def logout():
     session.clear()
     session['username'] = None
     return redirect('/')
+# LOGOUT ROUTES
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
