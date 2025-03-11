@@ -116,6 +116,14 @@ def get_individual_space(space_id):
 
 # SPACES ROUTES
 
+# ABOUT ROUTE
+@app.route('/about', methods=['GET'])
+def display_about_page():
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    spaces = repository.all()
+    return render_template('about.html', spaces = spaces)
+
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
 # if started in test mode.
