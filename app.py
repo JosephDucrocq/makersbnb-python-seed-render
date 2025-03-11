@@ -63,7 +63,7 @@ def login():
     users_repository = UserRepository(_connection)
     attempted_user = request.form['username']
     password = request.form['password']
-    if attempted_user in users_repository.all():
+    if attempted_user in users_repository.all().username:
         if password == users_repository.find_by_username(attempted_user).password:
             session['username'] = attempted_user
             return redirect('/')
@@ -75,6 +75,10 @@ def logout():
     session.clear()
     session['username'] = None
     return redirect('/')
+
+@app.route('/spaces/new', methods=['GET'])
+def new_space_form():
+    return render_template('create_new_space.html')
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
