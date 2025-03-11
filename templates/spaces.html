@@ -37,7 +37,9 @@
             <div class="spaces-container">
                 {% for space in spaces %}
                 <a href="/space/{{space.id}}" class="space-card">
-                    <div class="space-image">{{space.image_content}}</div>
+                    <div class="space-image"> 
+                        <img src={{space.image_source}}> </img>
+                    </div>
                     <div class="space-content">
                         <h2 class="space-title">{{space.name}}</h2>
                         <p class="space-location">{{space.location}}</p>
