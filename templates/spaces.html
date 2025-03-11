@@ -1,17 +1,68 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>MakersBnB</title>
-    </head>
+<html lang="en">
 
-    <p>All spaces are listed below:</p>
-        {% for space in spaces %}
-        <div>
-            <h2>
-                <a href=/space/{{space.id}}>
-            </h2>
-        </div>
-        {% endfor %}
-    <p>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakersBnB - All Spaces</title>
+    <link rel="stylesheet" href="static/styles.css">
 </head>
-    
+
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="/" class="logo">MakersBnB</a>
+            <div>
+                {% if username == "Not logged in"%}
+                <a href="/login" class="btn btn-secondary mr-2">Login</a>
+                <a href="/register" class="btn">Register</a>
+                {% else %}
+                <span class="mr-3">Welcome, {{username}}</span>
+                <a href="/logout" class="btn btn-secondary">Log Out</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="mb-4">
+                <h1 class="mb-2">Discover unique spaces</h1>
+                <p>Find your perfect stay from our selection of unique accommodations.</p>
+            </div>
+
+            <div class="mb-4">
+                <a href="/spaces/new" class="btn">List a New Space</a>
+            </div>
+
+            <div class="spaces-container">
+                {% for space in spaces %}
+                <a href="/space/{{space.id}}" class="space-card">
+                    <div class="space-image"></div>
+                    <div class="space-content">
+                        <h2 class="space-title">{{space.name}}</h2>
+                        <p class="space-location">{{space.location}}</p>
+                        {% if space.availability %}
+                        <span class="badge">Available</span>
+                        {% endif %}
+                        <p class="space-price">£{{space.price_per_night}} per night</p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>© 2025 MakersBnB, Inc.</p>
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/spaces">Spaces</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

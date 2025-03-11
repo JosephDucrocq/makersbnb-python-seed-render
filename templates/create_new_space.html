@@ -1,16 +1,84 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>MakersBnB</title>
+<html lang="en">
 
-        <p>Please fill in the form below to list a new space:</p>
-        <form action="/spaces/new", method="'POST">
-            <li>Name<input type="text" name="name"></br>
-             Location<input type="text" name="location"></br>
-             Description<input type="text" name="descripton"></br>
-             Availability<input type="checkbox" name="availability"></br>
-            Price per Night<input type="number" name="price_per_night"></br>
-            <input type="submit" value="List Space"></li>
-            <a href="/spaces">Back to all spaces</a>
-        </form>
-    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakersBnB - List a New Space</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="/" class="logo">MakersBnB</a>
+            <div>
+                {% if username == "Not logged in"%}
+                <a href="/login" class="btn btn-secondary mr-2">Login</a>
+                <a href="/register" class="btn">Register</a>
+                {% else %}
+                <span class="mr-3">Welcome, {{username}}</span>
+                <a href="/logout" class="btn btn-secondary">Log Out</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container" style="max-width: 700px;">
+            <h1 class="mb-4">List a New Space</h1>
+            <p class="mb-4">Share your space with travelers and earn extra income.</p>
+
+            <form action="/spaces/new" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" name="location" id="location" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="price_per_night">Price per Night (£)</label>
+                    <input type="number" name="price_per_night" id="price_per_night" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="availability" id="availability">
+                        Available Now
+                    </label>
+                </div>
+
+                <div class="text-center mb-4">
+                    <input type="submit" value="List Space" class="btn">
+                </div>
+            </form>
+
+            <div class="text-center">
+                <a href="/spaces" class="btn btn-secondary">Back to all spaces</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>© 2025 MakersBnB, Inc.</p>
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/spaces">Spaces</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
