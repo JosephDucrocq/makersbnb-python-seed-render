@@ -93,7 +93,7 @@ def get_individual_space(space_id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     space = repository.find(space_id)
-    return render_template('I DONT KNOW WHAT JOHN IS CALLING THIS HTML', space=space)
+    return render_template('single_space.html', space=space)
 
 # SPACES ROUTES
 
