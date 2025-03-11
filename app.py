@@ -88,6 +88,25 @@ def display_spaces_page():
 def new_space_form():
     return render_template('create_new_space.html')
 
+@app.route('/spaces/new', methods=['POST'])
+def create_new_space():
+    _connection = get_flask_database_connection(app)
+    spaces_repository = SpaceRepository(_connection)
+    valid_new_space = False
+    name = request.form['name']
+    location = request.form['location']
+    description = request.form['description']
+    price_per_night = request.form['price_per_night']
+    availability = request.form['availability']
+    if name != '' and location != '' and description != '' and price_per_night != None:
+        valid_new_space = True
+    if valid_new_space:
+        new_space = Space(None, name, location, description, availability, price_per_night, 1)
+        spaces_repository.create(new_space)
+        return redirect('/spaces')
+    else:
+        return redirect('/spaces/new')
+
 @app.route('/spaces/<space_id>', methods=['GET'])
 def get_individual_space(space_id):
     connection = get_flask_database_connection(app)
