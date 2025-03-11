@@ -12,7 +12,7 @@
         <div class="container navbar">
             <a href="/" class="logo">MakersBnB</a>
             <div>
-                {% if username == "Not logged in"%}
+                {% if username == "Not logged in" or username == "" %}
                 <a href="/login" class="btn btn-secondary mr-2">Login</a>
                 <a href="/register" class="btn">Register</a>
                 {% else %}
@@ -37,8 +37,10 @@
             <div class="spaces-container">
                 {% for space in spaces %}
                 <a href="/spaces/{{space.id}}" class="space-card">
+
                     <div class="space-image"> 
                         <img class="space-image-content" src='{{ space.image_content }}' alt="Image Description">
+
                     </div>
                     <div class="space-content">
                         <h2 class="space-title">{{space.name}}</h2>
