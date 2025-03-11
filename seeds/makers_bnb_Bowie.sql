@@ -23,6 +23,7 @@ CREATE TABLE spaces (
     location VARCHAR(255),
     description VARCHAR(255),
     price_per_night FLOAT,
+    image_content VARCHAR(255)
 
 user_id int,
 constraint fk_user foreign key(user_id)
@@ -33,5 +34,5 @@ constraint fk_user foreign key(user_id)
 INSERT INTO users (username, password) VALUES ('Luis', 'IloveTaylorSwift');
 INSERT INTO users (username, password) VALUES ('Joseph', 'Idoto');
 
-INSERT INTO spaces (name, location, description, availability, price_per_night, user_id) VALUES ('Makers Villa', 'London', 'Beautiful refurbished industrial warehouse', True, 150, 1);
-INSERT INTO spaces (name, location, description, availability, price_per_night, user_id) VALUES ('Josephs farm', 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', True, 90, 2);
+INSERT INTO spaces (name, location, description, availability, price_per_night, image_content, user_id) VALUES ('Makers Villa', 'London', 'Beautiful refurbished industrial warehouse', True, 150, 'https://as-images.imgix.net/e0e91fbfcbda875d65ccfc75fcc8d60a-DRC_9449.jpg', 1);
+INSERT INTO spaces (name, location, description, availability, price_per_night, image_content, user_id) VALUES ('Josephs farm', 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', True, 90, 'https://i.redd.it/1z3atrfp76d01.jpg', 2);
