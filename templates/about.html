@@ -27,46 +27,42 @@
   <main>
     <div class="container text-center">
       <h1 class="mb-4">About us</h1>
-      <p class="mb-4">Welcome to MakersBnB – your go-to platform for affordable and unique spaces. Founded in 2025 by five software engineers
-        – John, Luis, Jack, Andrew, Joseph, and Will – we set out to make finding and sharing spaces easier and more accessible for everyone.
-        Whether you need a creative studio, a cozy retreat, or a productive workspace, MakersBnB connects you with the perfect spot at a price
-        that works. We believe that great ideas and experiences start with the right space – and we’re here to help you find it.
+      <p class="mb-4">Welcome to MakersBnB – your go-to platform for affordable and unique spaces. Founded in 2025 by
+        five software engineers
+        – John, Luis, Jack, Andrew, Joseph, and Will – we set out to make finding and sharing spaces easier and more
+        accessible for everyone.
+        Whether you need a creative studio, a cozy retreat, or a productive workspace, MakersBnB connects you with the
+        perfect spot at a price
+        that works. We believe that great ideas and experiences start with the right space – and we’re here to help you
+        find it.
       </p>
       <a href="/spaces" class="btn btn-lg">Explore Spaces</a>
-
-      {% if username == "Not logged in"%}
-      <div class="mt-5">
-        <p class="mb-2">Already have an account?</p>
-        <a href="/login" class="btn btn-secondary mr-2">Login</a>
-        <a href="/register" class="btn">Register</a>
-      </div>
-      {% endif %}
     </div>
 
     <div class="container">
       <div class="mb-4">
-          <h1 class="mb-2">Founders</h1>
+        <h1 class="mb-2">Founders</h1>
       </div>
 
       <div class="spaces-container">
-          {% for space in spaces %}
-          <a href="/spaces/{{space.id}}" class="space-card">
-              <div class="space-image"> 
-                  <img src={{space.image_source}}> </img>
-              </div>
-              <div class="space-content">
-                  <h2 class="space-title">{{space.name}}</h2>
-                  <!-- <p class="space-location">{{space.location}}</p>
+        {% for space in spaces %}
+        <a href="/spaces/{{space.id}}" class="space-card">
+          <div class="space-image">
+            <img src={{space.image_source}}> </img>
+          </div>
+          <div class="space-content">
+            <h2 class="space-title">{{space.name}}</h2>
+            <!-- <p class="space-location">{{space.location}}</p>
                   {% if space.availability %}
                   <span class="badge">Available</span>
                   {% endif %} -->
-                  <!-- <p class="space-price">£{{space.price_per_night}} per night</p> -->
-                  <p class="space-price">"Insert name of founder here"</p>
-              </div>
-          </a>
-          {% endfor %}
+            <!-- <p class="space-price">£{{space.price_per_night}} per night</p> -->
+            <p class="space-price">"Insert name of founder here"</p>
+          </div>
+        </a>
+        {% endfor %}
       </div>
-  </div>
+    </div>
   </main>
 
   <footer>
