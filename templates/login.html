@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>Login</h1>
+    <!-- This creates a form that will submit to POST /posts -->
+    <form action="/login" method="post">
+
+      <!-- We check to see if there are any errors from a previous submission -->
+      {% if errors %}
+        <!-- If so, we show them. -->
+        <p class="t-errors">
+          There were errors with your submission: {{ errors }}
+        </p>
+      {% endif %}
+
+      <p>
+        <!-- These `label` tags are important for accessibility -->
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
+      </p>
+      <p>
+        <!-- These `label` tags are important for accessibility -->
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+      </p>
+      <p>
+        <!-- `type` is submit here, to indicate it is a button -->
+        <!-- `value` is used as the button's text -->
+        <input type="submit" value="Login">
+      </p>
+    </form>
+    <a href="/">Return to homepage without logging in</a>
+  </body>
+</html>

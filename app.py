@@ -1,9 +1,12 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, redirect
 from lib.database_connection import get_flask_database_connection
+from lib.user_repository import UserRepository
+from lib.user import User
 
 # Create a new Flask app
 app = Flask(__name__)
+app.secret_key = 'this_is_a_super_secret_key'
 
 # == Your Routes Here ==
 
@@ -11,9 +14,45 @@ app = Flask(__name__)
 # Returns the homepage
 # Try it:
 #   ; open http://localhost:5001/index
+
+@app.route('/', methods=["GET"])
+def welcome():
+    if session['username'] != None:
+        username = f"Logged in as: {session['username']}"
+        _connection = get_flask_database_connection(app)
+        users_repository = UserRepository(_connection)
+        user_id = users_repository.find_by_username(session['username']).id
+        return render_template('welcome.html', username=username, user_id=user_id)
+    else:
+        username = "Not logged in"
+        return render_template('welcome.html', username=username)
+    
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
+
+@app.route('/login', methods=['GET'])
+def display_login_prompt():
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    _connection = get_flask_database_connection(app)
+    users_repository = UserRepository(_connection)
+    attempted_user = request.form['username']
+    password = request.form['password']
+    if attempted_user in users_repository.all():
+        if password == users_repository.find_by_username(attempted_user).password:
+            session['username'] = attempted_user
+            return redirect('/')
+    else:
+        return redirect('/login')
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    session['username'] = None
+    return redirect('/')
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

@@ -20,3 +20,8 @@ class UserRepository:
         rows = self._connection.execute("SELECT * from users WHERE id = %s", [id])
         row = rows[0]
         return User(row["id"], row["username"], row["password"])
+    
+    def find_by_username(self, username: str):
+        rows = self._connection.execute("SELECT * from users WHERE username = %s", [username])
+        row = rows[0]
+        return User(row["id"], row["username"], row["password"])

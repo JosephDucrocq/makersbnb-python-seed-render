@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Welcome!</title>
+    <style type="text/css">
+        /** This is CSS, it is used for styling the page **/
+        body {
+          background-color: rgb(255, 255, 255);
+          color: rgb(8, 0, 255);
+          font-size: 2em;
+        }
+        
+      </style>
+  </head>
+  <body>
+    <h1>Welcome!</h1>
+    {{username}}</BR>
+    {% if username == "Not logged in"%}
+    <a href="/login">Login</a></BR>
+    <a href="/register">Register</a></BR></BR>
+    {% else %}
+    <a href="/logout">Log Out</a></BR></BR>
+    {% endif %}
+    <a href="/spaces">List all spaces</a></BR>
+  </body>
+</html>
