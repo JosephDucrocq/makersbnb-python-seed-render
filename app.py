@@ -37,7 +37,7 @@ def send_new_registration():
     password1 = request.form['password']
     password2 = request.form['confirm_password']
     password = password1 if password1 == password2 and (password1!= None) else None
-    valid_input = username != '' and password != ''
+    valid_input = username != '' and password != '' and password != None
     if valid_input == True:
         new_user = User(None, username, password)
         repository.create(new_user)
