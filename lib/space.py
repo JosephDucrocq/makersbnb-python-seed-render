@@ -1,3 +1,5 @@
+import typing, typing_extensions
+
 class Space():
     def __init__(self, id: int, name: str, location: str, description: str, availability: bool, price_per_night: float, user_id: int) -> None:
         self.id = id
