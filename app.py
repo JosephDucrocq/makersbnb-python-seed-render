@@ -1,5 +1,4 @@
 import os
-
 from lib.user_repository import *
 from lib.space_repository import *
 from flask import Flask, request, render_template, session, redirect
@@ -40,9 +39,19 @@ def display_register_page():
 def send_new_registration():
     connection = get_flask_database_connection(app)
     repository = UserRepository(connection)
-    new_user = User(None, request.form['username'], request.form['password'])
-    repository.create(new_user)
-    return f'You have successfully registered'
+    if request.form['username'] != '':
+        username = request.form['username']
+    else:
+        username = None
+    password1 = request.form['password']
+    password2 = request.form['confirm_password']
+    password = password1 if password1 == password2 else None
+    if password != None and username != None:
+        new_user = User(None, username, password)
+        repository.create(new_user)
+        return f'You have successfully registered'
+    else:
+        return redirect('/register') 
 
 # REGISTER ROUTES
 # LOGIN ROUTES
@@ -56,7 +65,7 @@ def login():
     users_repository = UserRepository(_connection)
     attempted_user = request.form['username']
     password = request.form['password']
-    if attempted_user in users_repository.all():
+    if attempted_user in users_repository.list_all_usernames():
         if password == users_repository.find_by_username(attempted_user).password:
             session['username'] = attempted_user
             return redirect('/')
