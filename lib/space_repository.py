@@ -1,4 +1,5 @@
 from lib.space import Space
+import typing, typing_extensions
 
 class SpaceRepository():
     def __init__(self, connection):
