@@ -28,7 +28,8 @@ I get all the users in the users table
 def test_create(db_connection):
     db_connection.seed("seeds/makers_bnb_Bowie.sql")
     repository = UserRepository(db_connection)
-    repository.create("test user", "1234pass")
+    user = User(None, "test user", "1234pass")
+    repository.create(user)
     assert repository.all() == [
         User(1, "Luis", "IloveTaylorSwift"),
         User(2, "Joseph", "Idoto"), 
@@ -44,8 +45,9 @@ An error message appears
 def test_create_existing_user_throws_exception(db_connection):
     db_connection.seed("seeds/makers_bnb_Bowie.sql")
     repository = UserRepository(db_connection)
+    user = User(1, "Luis", "IloveTaylorSwift")
     with pytest.raises(ValueError) as e:
-        repository.create("Luis", "1234pass")
+        repository.create(user)
     assert str(e.value) == "Username Already exists!"
     assert repository.all() == [
         User(1, "Luis", "IloveTaylorSwift"),
@@ -54,7 +56,7 @@ def test_create_existing_user_throws_exception(db_connection):
 
 
 """
-When I call #find for an user id
+When I call #find for a username
 I get the user name
 """
 
