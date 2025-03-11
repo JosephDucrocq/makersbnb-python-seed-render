@@ -14,6 +14,6 @@ Then: A new user object should be created and I should be logged in
 """
 def test_register_post(db_connection, web_client):
     db_connection.seed('seeds/makers_bnb_Bowie.sql')
-    response = web_client.post('/register', data={'text': 'username', 'text' : 'password'})
+    response = web_client.post('/register', data={'username': 'test_username', 'password' : 'test_password'})
     assert response.status_code == 200
-    assert response.data.decode('utf-8') == 'You have successfully registered"'
+    assert response.data.decode('utf-8') == 'You have successfully registered'

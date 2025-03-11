@@ -1,4 +1,6 @@
 import os
+from lib.user_repository import *
+from lib.space_repository import *
 from flask import Flask, request, render_template
 from lib.database_connection import get_flask_database_connection
 
@@ -24,7 +26,15 @@ def get_register():
 def send_new_registration():
     connection = get_flask_database_connection(app)
     repository = UserRepository(connection)
-    new_user = User(request.form)
+    new_user = User(None, request.form['username'], request.form['password'])
+    repository.create(new_user)
+    return f'You have successfully registered'
+
+# @app.route('/index', methods=['GET'])
+# def get_all_spaces():
+#     connection = get_flask_database_connection(app)
+
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
