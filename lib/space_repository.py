@@ -1,11 +1,10 @@
 from lib.space import Space
-import typing, typing_extensions
 
 class SpaceRepository():
     def __init__(self, connection):
         self._connection = connection
 
-    def all(self) -> list[Space]:
+    def all(self):
         rows = self._connection.execute('SELECT * FROM spaces')
         spaces = []
         for row in rows:
@@ -13,7 +12,7 @@ class SpaceRepository():
             spaces.append(space)
         return spaces
     
-    def find(self, search_id: int) -> Space:
+    def find(self, search_id: int):
         rows = self._connection.execute("SELECT * FROM spaces WHERE id = %s", [search_id])
         row = rows[0]
         space = Space(row["id"], row['name'], row['location'], row['description'], row['availability'], row['price_per_night'], row['user_id'])
