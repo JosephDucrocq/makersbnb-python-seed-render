@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakersBnB - All Spaces</title>
+    <title>MakersBnB - Space</title>
     <link rel="stylesheet" href="static/styles.css">
 </head>
 
@@ -35,9 +35,8 @@
             </div>
 
             <div class="spaces-container">
-                {% for space in spaces %}
                 <a href="/space/{{space.id}}" class="space-card">
-                    <div class="space-image">{{space.image_content}}</div>
+                    <div class="space-image"></div>
                     <div class="space-content">
                         <h2 class="space-title">{{space.name}}</h2>
                         <p class="space-location">{{space.location}}</p>
@@ -47,7 +46,6 @@
                         <p class="space-price">£{{space.price_per_night}} per night</p>
                     </div>
                 </a>
-                {% endfor %}
             </div>
         </div>
     </main>

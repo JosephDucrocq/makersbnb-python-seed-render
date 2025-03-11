@@ -1,11 +1,8 @@
-DROP TABLE IF EXISTS test_table;
-CREATE TABLE test_table (id SERIAL PRIMARY KEY, name VARCHAR(255));
-INSERT INTO test_table (name) VALUES ('first_record');
-
-DROP TABLE IF EXISTS spaces;
-DROP SEQUENCE IF EXISTS spaces_id_seq;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 DROP SEQUENCE IF EXISTS users_id_seq;
+DROP TABLE IF EXISTS spaces CASCADE;
+DROP SEQUENCE IF EXISTS spaces_id_seq;
+
 
 -- Table creation below --
 
@@ -23,7 +20,7 @@ CREATE TABLE spaces (
     location VARCHAR(255),
     description VARCHAR(255),
     price_per_night FLOAT,
-    image_content VARCHAR(255)
+    image_content TEXT,
 
 user_id int,
 constraint fk_user foreign key(user_id)
