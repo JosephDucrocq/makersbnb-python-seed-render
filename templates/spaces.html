@@ -38,7 +38,7 @@
                 {% for space in spaces %}
                 <a href="/spaces/{{space.id}}" class="space-card">
                     <div class="space-image"> 
-                        <img src={{space.image_source}}> </img>
+                        <img class="space-image-content" src='{{ space.image_content }}' alt="Image Description">
                     </div>
                     <div class="space-content">
                         <h2 class="space-title">{{space.name}}</h2>
@@ -51,6 +51,7 @@
                 </a>
                 {% endfor %}
             </div>
+
         </div>
     </main>
 
