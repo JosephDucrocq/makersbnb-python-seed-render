@@ -21,8 +21,8 @@ def welcome():
     else:
         username = "Not logged in"
         return render_template('welcome.html', username=username)
-    
 # WELCOME ROUTES
+
 # REGISTER ROUTES
 @app.route('/register', methods=['GET'])
 def display_register_page():
@@ -45,8 +45,8 @@ def send_new_registration():
         return redirect('/')
     else:
         return redirect('/register') 
-
 # REGISTER ROUTES
+
 # LOGIN ROUTES
 @app.route('/login', methods=['GET'])
 def display_login_prompt():
@@ -66,16 +66,8 @@ def login():
             return redirect('/login')
     else:
         return redirect('/login')
-
 # LOGIN ROUTES
-# SPACES ROUTES
-@app.route('/spaces', methods=['GET'])
-def display_spaces_page():
-    connection = get_flask_database_connection(app)
-    repository = SpaceRepository(connection)
-    spaces = repository.all()
-    return render_template('spaces.html', spaces=spaces)
-# SPACES ROUTES
+
 # LOGOUT ROUTES
 @app.route('/logout', methods=['GET'])
 def logout():
@@ -84,28 +76,27 @@ def logout():
     return redirect('/')
 # LOGOUT ROUTES
 
+# SPACES ROUTES
+@app.route('/spaces', methods=['GET'])
+def display_spaces_page():
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    spaces = repository.all()
+    return render_template('spaces.html', spaces=spaces)
+
 @app.route('/spaces/new', methods=['GET'])
 def new_space_form():
     return render_template('create_new_space.html')
 
-@app.route('/spaces/new', methods=['POST'])
-def create_new_space():
-    _connection = get_flask_database_connection(app)
-    spaces_repository = SpaceRepository(_connection)
-    valid_new_space = False
-    name = request.form['name']
-    location = request.form['location']
-    description = request.form['description']
-    price_per_night = request.form['price_per_night']
-    availability = request.form['availability']
-    if name != '' and location != '' and description != '' and price_per_night != None:
-        valid_new_space = True
-    if valid_new_space:
-        new_space = Space(None, name, location, description, availability, price_per_night, 1)
-        spaces_repository.create(new_space)
-        return redirect('/spaces')
-    else:
-        return redirect('/spaces/new')
+@app.route('/spaces/<space_id>', methods=['GET'])
+def get_individual_space(space_id):
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    space = repository.find(space_id)
+    return render_template('I DONT KNOW WHAT JOHN IS CALLING THIS HTML', space=space)
+
+# SPACES ROUTES
+
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
 # if started in test mode.
