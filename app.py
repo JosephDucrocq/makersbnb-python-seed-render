@@ -6,16 +6,8 @@ from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.user import User
 
-# Create a new Flask app
 app = Flask(__name__)
 app.secret_key = 'this_is_a_super_secret_key'
-
-# == Your Routes Here ==
-
-# GET /index
-# Returns the homepage
-# Try it:
-#   ; open http://localhost:5001/index
 
 # WELCOME ROUTES
 @app.route('/', methods=["GET"])
@@ -29,6 +21,7 @@ def welcome():
     else:
         username = "Not logged in"
         return render_template('welcome.html', username=username)
+    
 # WELCOME ROUTES
 # REGISTER ROUTES
 @app.route('/register', methods=['GET'])
@@ -39,17 +32,17 @@ def display_register_page():
 def send_new_registration():
     connection = get_flask_database_connection(app)
     repository = UserRepository(connection)
-    if request.form['username'] != '':
-        username = request.form['username']
-    else:
-        username = None
+    valid_input = False
+    username = request.form['username']
     password1 = request.form['password']
     password2 = request.form['confirm_password']
-    password = password1 if password1 == password2 else None
-    if password != None and username != None:
+    password = password1 if password1 == password2 and (password1!= None) else None
+    valid_input = username != '' and password != '' and password != None
+    if valid_input == True:
         new_user = User(None, username, password)
         repository.create(new_user)
-        return f'You have successfully registered'
+        login()
+        return redirect('/')
     else:
         return redirect('/register') 
 
@@ -69,6 +62,8 @@ def login():
         if password == users_repository.find_by_username(attempted_user).password:
             session['username'] = attempted_user
             return redirect('/')
+        else:
+            return redirect('/login')
     else:
         return redirect('/login')
 

@@ -9,7 +9,7 @@ class UserRepository:
         return [User(row["id"], row["username"], row["password"]) for row in rows]
 
     def create(self, user):
-        if not self._isUserUnique(user.username):  
+        if self._isUserUnique(user.username):  
             self._connection.execute(
                 "INSERT INTO users (username, password) VALUES (%s, %s)",
                 [user.username, user.password],
@@ -17,9 +17,10 @@ class UserRepository:
         return None
     
     def _isUserUnique(self, username):
-        for user in self.all():
-            if username in user.username:
-                raise ValueError("Username Already exists!")
+        if username in self.list_all_usernames():
+            return False
+        else:
+            return True
 
     def find_by_id(self, id: int):
         rows = self._connection.execute("SELECT * from users WHERE id = %s", [id])
