@@ -89,6 +89,10 @@ def logout():
     return redirect('/')
 # LOGOUT ROUTES
 
+@app.route('/spaces/new', methods=['GET'])
+def new_space_form():
+    return render_template('create_new_space.html')
+
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
 # if started in test mode.
