@@ -25,7 +25,7 @@ class SpaceRepository():
 
     def find_by_user_id(self, user_id):
         rows = self._connection.execute(
-            "SELECT id, name, location, description, availability, price_per_night, image_content, user_id FROM spaces WHERE user_id = %s",
+            "SELECT id, name, location, description, price_per_night, dates_available_dict, image_content, user_id FROM spaces WHERE user_id = %s",
             [user_id],
         )
         spaces = []
@@ -35,8 +35,8 @@ class SpaceRepository():
                 row["name"],
                 row["location"],
                 row["description"],
-                row["availability"],
                 row["price_per_night"],
+                row["dates_available_dict"],
                 row["image_content"],
                 row["user_id"],
             )
