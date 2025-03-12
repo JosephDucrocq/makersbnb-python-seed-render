@@ -129,12 +129,13 @@ def create_new_space():
     description = request.form["description"]
     price_per_night = request.form["price_per_night"]
     availability = request.form["availability"] #TODO Checkboxes in html forms do not send anything when unchecked so currently new space fails if availability is not checked
+    image_url = request.form['image_url'] if request.form['image_url'] != '' else "https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png"
     user_id = users_repository.find_by_username(session['username']).id
     if name != "" and location != "" and description != "" and price_per_night != None:
         valid_new_space = True
     if valid_new_space:
         new_space = Space(
-            None, name, location, description, availability, price_per_night, "https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png", user_id
+            None, name, location, description, availability, price_per_night, image_url, user_id
         )
         spaces_repository.create(new_space)
         return redirect("/spaces")
