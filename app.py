@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, url_for
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.user import User
@@ -13,6 +13,7 @@ app.secret_key = "this_is_a_super_secret_key"
 def login_required(func):
     def secure_function():
         if "username" not in session or session["username"] == None:
+            session['url'] = url_for('create_new_space')
             return redirect(("/login"))
         return func()
 
@@ -78,7 +79,9 @@ def login():
     password = request.form["password"]
     if users_repository.check_password(attempted_user, password):
         session["username"] = attempted_user
-        return redirect("/")
+        if 'url' in session:
+            return redirect(session['url'])
+        return redirect('/')
     else:
         return redirect("/login")
 
