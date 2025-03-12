@@ -45,25 +45,20 @@
     </div>
   </br>
   
-    <div class="container">
+    <div class="container text-center">
       <div class="mb-4">
         <h1 class="mb-2">Founders</h1>
       </div>
-
-      <div class="spaces-container">
+      <div class="founders-grid">
         {% for name, image in founders.items() %}
         <div class="founder-card">
-
-            <div class="founder-image"> 
-                <img class="space-image-content" src='{{ image }}' alt="Image Description">
-
-            </div>
-            <div class="space-content">
-                <h2 class="space-title">{{name}}</h2>
-            </div>
-          </div>
+          <img src="{{image}}" alt="{{name}}">
+          <h3>{{name}}</h3>
+          <!-- <p>Airbnb Co-founder and Chief Executive Officer</p> -->
+        </div>
         {% endfor %}
-    </div>
+      </div>  
+    </div>  
   </main>
 
   <footer>

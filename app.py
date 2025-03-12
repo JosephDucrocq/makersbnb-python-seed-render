@@ -172,12 +172,12 @@ def display_about_page():
     repository = SpaceRepository(connection)
     spaces = repository.all()
     founders = {
-        "Andrew": "https://ca.slack-edge.com/T03ALA7H4-U089649MMQC-c22713126f2f-512",
-        "Will": "https://ca.slack-edge.com/T03ALA7H4-U089SD1E83A-9fef626c96b4-512",
-        "Jack": "https://ca.slack-edge.com/T03ALA7H4-U089CLJQMKK-9b3e6a0e85de-512",
-        "Joseph": "https://ca.slack-edge.com/T03ALA7H4-U088KDUVD0F-c40d5d623bb1-512",
-        "John": "https://ca.slack-edge.com/T03ALA7H4-U0893FT4Q7M-cd53f939148c-512",
-        "Luis": "https://ca.slack-edge.com/T03ALA7H4-U089649HLAG-f31e2ebbfeab-512",
+        "Andrew Pang": "https://ca.slack-edge.com/T03ALA7H4-U089649MMQC-c22713126f2f-512",
+        "Will Egerton": "https://ca.slack-edge.com/T03ALA7H4-U089SD1E83A-9fef626c96b4-512",
+        "Jack Misner": "https://ca.slack-edge.com/T03ALA7H4-U089CLJQMKK-9b3e6a0e85de-512",
+        "Joseph Ducrocq": "https://ca.slack-edge.com/T03ALA7H4-U088KDUVD0F-c40d5d623bb1-512",
+        "John Rothera": "https://ca.slack-edge.com/T03ALA7H4-U0893FT4Q7M-cd53f939148c-512",
+        "Luis Moseley-Robinson": "https://ca.slack-edge.com/T03ALA7H4-U089649HLAG-f31e2ebbfeab-512",
     }
 
     if "username" in session and session["username"] != None:
