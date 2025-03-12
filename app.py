@@ -1,10 +1,10 @@
 import os
-from lib.user_repository import *
-from lib.space_repository import *
 from flask import Flask, request, render_template, session, redirect
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 from lib.user import User
+from lib.space_repository import SpaceRepository
+from lib.space import Space
 
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
@@ -128,14 +128,15 @@ def create_new_space():
     location = request.form["location"]
     description = request.form["description"]
     price_per_night = request.form["price_per_night"]
-    availability = request.form["availability"] #TODO Checkboxes in html forms do not send anything when unchecked so currently new space fails if availability is not checked
+    start_date = request.form["start_date"] # for the available dates dict
+    end_date = request.form["end_date"] # for the available dates dict
     image_url = request.form['image_url'] if request.form['image_url'] != '' else "https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png"
     user_id = users_repository.find_by_username(session['username']).id
-    if name != "" and location != "" and description != "" and price_per_night != None:
+    if name != "" and location != "" and description != "" and price_per_night != None: #and start_date != None and end_date != None:
         valid_new_space = True
     if valid_new_space:
         new_space = Space(
-            None, name, location, description, availability, price_per_night, image_url, user_id
+            None, name, location, description, price_per_night, start_date, end_date, image_url, user_id
         )
         spaces_repository.create(new_space)
         return redirect("/spaces")
