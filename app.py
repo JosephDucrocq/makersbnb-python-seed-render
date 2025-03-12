@@ -192,18 +192,24 @@ def display_about_page():
 @app.route("/user/<username>", methods=["GET"])
 def get_individual_user(username):
     connection = get_flask_database_connection(app)
-    repository = UserRepository(connection)
-    user = repository.find_by_username(username)
+    user_repository = UserRepository(connection)
+    space_repository = SpaceRepository(connection)
+
+    user = user_repository.find_by_username(username)
+    spaces = space_repository.find_by_user_id(user.id)
+
     if "username" in session and session["username"] != None:
         logged_in_username = f"{session['username']}"
-        return render_template(
-            "single_user.html", user=user, logged_in_username=logged_in_username
-        )
     else:
         logged_in_username = "Not logged in"
-        return render_template(
-            "single_user.html", user=user, logged_in_username=logged_in_username
-        )
+
+    return render_template(
+        "single_user.html",
+        user=user,
+        spaces=spaces,
+        username=username,
+        logged_in_username=logged_in_username,
+    )
 
 
 # ABOUT ROUTE

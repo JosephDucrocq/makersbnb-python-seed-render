@@ -1,0 +1,79 @@
+/* Profile layout - updated to position spaces on the left and bookings on the right */
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.spaces-container {
+    flex: 1 1 65%;
+    /* Ensure spaces take up more space on the left */
+    min-width: 280px;
+    /* Minimum width to ensure readability */
+}
+
+.bookings-container {
+    flex: 0 1 30%;
+    /* Ensure bookings container is on the right side */
+    min-width: 250px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;
+    /* Sticks to the top */
+}
+
+/* Space cards - improved to ensure proper grid alignment */
+.spaces-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.space-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive adjustments - improved breakpoints */
+@media (max-width: 1200px) {
+    .spaces-container {
+        flex: 1 1 60%;
+    }
+
+    .bookings-container {
+        flex: 1 1 30%;
+    }
+}
+
+@media (max-width: 992px) {
+    .profile-container {
+        flex-direction: column;
+    }
+
+    .spaces-container,
+    .bookings-container {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .bookings-container {
+        order: -1;
+        /* Show bookings container first on mobile */
+    }
+
+    .spaces-grid {
+        grid-template-columns: 1fr;
+    }
+}
