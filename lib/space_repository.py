@@ -30,7 +30,7 @@ class SpaceRepository():
         )
         spaces = []
         for row in rows:
-            space = Space(
+            space = Space.from_database(
                 row["id"],
                 row["name"],
                 row["location"],
