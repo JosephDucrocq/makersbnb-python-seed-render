@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP SEQUENCE IF EXISTS users_id_seq;
 DROP TABLE IF EXISTS spaces CASCADE;
 DROP SEQUENCE IF EXISTS spaces_id_seq;
+DROP TABLE IF EXISTS bookings CASCADE;
+DROP SEQUENCE IF EXISTS bookings_id_seq;
 
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
 CREATE TABLE users (
@@ -22,6 +24,20 @@ CREATE TABLE spaces (
     user_id int,
         constraint fk_user foreign key(user_id)
         references users(id)
+        on delete cascade
+);
+
+CREATE SEQUENCE IF NOT EXISTS bookings_id_seq;
+CREATE TABLE bookings (
+    id SERIAL PRIMARY KEY,
+    requested_dates TEXT,
+    user_id int,
+        constraint fk_user foreign key(user_id)
+        references users(id)
+        on delete cascade,
+    space_id int,
+        constraint fk_space foreign key(space_id)
+        references spaces(id)
         on delete cascade
 );
 
