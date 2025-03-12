@@ -27,6 +27,7 @@ CREATE TABLE spaces (
 
 INSERT INTO users (username, encrypted_password) VALUES ('Luis', 'f5d44b29add0d1a87b9edc82e7c5a9fd'); -- Password: IloveTaylorSwift
 INSERT INTO users (username, encrypted_password) VALUES ('Joseph', '6380dcbb2728aa384ed16fc1cf98b1f0'); -- Password: Idoto
+INSERT INTO users (username, encrypted_password) VALUES ('jackmisner', '5e075470c9298a362f78901a75c0d288');
 
 INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Makers Villa', 'London', 'Beautiful refurbished industrial warehouse', 150, '{"2025-03-12": true, "2025-03-13": true, "2025-03-14": false}', 'https://as-images.imgix.net/e0e91fbfcbda875d65ccfc75fcc8d60a-DRC_9449.jpg', 1);
 INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Josephs farm', 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', 90, '{"2025-07-5" : false}', 'https://i.redd.it/1z3atrfp76d01.jpg', 2);
