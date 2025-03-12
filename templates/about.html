@@ -29,8 +29,8 @@
     <div class="container text-center">
       <h1 class="mb-4">About us</h1>
       <p class="mb-4">Welcome to MakersBnB – your go-to platform for affordable and unique spaces. Founded in 2025 by
-        five software engineers
-        – John, Luis, Jack, Andrew, Joseph, and Will – we set out to make finding and sharing spaces easier and more
+        six software engineers
+        – Andrew, Will, Jack, Joseph, John and Luis – we set out to make finding and sharing spaces easier and more
         accessible for everyone.
         Whether you need a creative studio, a cozy retreat, or a productive workspace, MakersBnB connects you with the
         perfect spot at a price
@@ -46,23 +46,19 @@
       </div>
 
       <div class="spaces-container">
-        {% for space in spaces %}
-        <a href="/spaces/{{space.id}}" class="space-card">
-          <div class="space-image">
-            <img src={{space.image_source}}> </img>
+        {% for name, image in founders.items() %}
+        <div class="founder-card">
+
+            <div class="founder-image"> 
+                <img class="space-image-content" src='{{ image }}' alt="Image Description">
+
+            </div>
+            <div class="space-content">
+                <h2 class="space-title">{{name}}</h2>
+            </div>
           </div>
-          <div class="space-content">
-            <h2 class="space-title">{{space.name}}</h2>
-            <!-- <p class="space-location">{{space.location}}</p>
-                  {% if space.availability %}
-                  <span class="badge">Available</span>
-                  {% endif %} -->
-            <!-- <p class="space-price">£{{space.price_per_night}} per night</p> -->
-            <p class="space-price">"Insert name of founder here"</p>
-          </div>
-        </a>
         {% endfor %}
-      </div>
+    </div>
     </div>
   </main>
 
