@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakersBnB - Space</title>
+    <title>MakersBnB - {{space.name}}</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 
@@ -25,28 +25,67 @@
 
     <main>
         <div class="container">
-            <div class="mb-4">
-                <h1 class="mb-2">Discover unique spaces</h1>
-                <p>Find your perfect stay from our selection of unique accommodations.</p>
+            <div class="mb-3">
+                <a href="/spaces" class="btn btn-secondary btn-sm">&larr; Back to all spaces</a>
             </div>
 
-            <div class="mb-4">
-                <a href="/spaces/new" class="btn">List a New Space</a>
-            </div>
+            <div class="single-space">
+                <div class="single-space-gallery">
+                    <img class="single-space-image" src='{{ space.image_content }}' alt="{{space.name}}">
+                </div>
 
-            <div class="spaces-container">
-                <a href="/spaces/{{space.id}}" class="space-card">
-                    <div class="space-image"></div>
-                    <img class="space-image-content" src='{{ space.image_content }}' alt="Image Description">
-                    <div class="space-content">
-                        <h2 class="space-title">{{space.name}}</h2>
-                        <p class="space-location">{{space.location}}</p>
-                        {% if space.availability %}
-                        <span class="badge">Available</span>
-                        {% endif %}
-                        <p class="space-price">£{{space.price_per_night}} per night</p>
+                <div class="single-space-content">
+                    <div class="single-space-header">
+                        <h1 class="single-space-title">{{space.name}}</h1>
+                        <p class="single-space-location">{{space.location}}</p>
                     </div>
-                </a>
+
+                    <div class="single-space-details">
+                        <div class="single-space-info">
+                            <h2 class="mb-2">About this space</h2>
+                            <p>{{space.description}}</p>
+
+                            <div class="space-features mt-4">
+                                <h3 class="mb-2">Features</h3>
+                                <ul class="features-list">
+                                    {% if space.features %}
+                                    {% for feature in space.features %}
+                                    <li>{{feature}}</li>
+                                    {% endfor %}
+                                    {% else %}
+                                    <li>Entire space</li>
+                                    <li>Self check-in</li>
+                                    <li>Free cancellation for 48 hours</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="single-space-booking">
+                            <div class="booking-card">
+                                <h3 class="space-price mb-2">£{{space.price_per_night}} <span>per night</span></h3>
+
+                                {% if space.availability %}
+                                <span class="availability-badge available">Available</span>
+                                {% else %}
+                                <span class="availability-badge unavailable">Unavailable</span>
+                                {% endif %}
+
+                                <form class="mt-3">
+                                    <div class="form-group mb-2">
+                                        <label for="check-in">Check in</label>
+                                        <input type="date" id="check-in" name="check-in">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="check-out">Check out</label>
+                                        <input type="date" id="check-out" name="check-out">
+                                    </div>
+                                    <button type="submit" class="btn btn-lg btn-full">Book now</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
