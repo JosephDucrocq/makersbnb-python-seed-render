@@ -20,7 +20,7 @@ def login_required(func):
 @app.route("/", methods=["GET"])
 def welcome():
     if "username" in session and session["username"] != None:
-        username = f"Logged in as: {session['username']}"
+        username = f"{session['username']}"
         _connection = get_flask_database_connection(app)
         users_repository = UserRepository(_connection)
         user_id = users_repository.find_by_username(session["username"]).id
@@ -28,6 +28,7 @@ def welcome():
     else:
         username = "Not logged in"
         return render_template("welcome.html", username=username)
+        
 
 
 # WELCOME ROUTES
@@ -101,7 +102,7 @@ def display_spaces_page():
     repository = SpaceRepository(connection)
     spaces = repository.all()
     if "username" in session and session["username"] != None:
-        username = f"Logged in as: {session['username']}"
+        username = f"{session['username']}"
         return render_template("spaces.html", spaces=spaces, username=username)
     else:
         username = "Not logged in"
@@ -111,7 +112,7 @@ def display_spaces_page():
 @app.route("/spaces/new", methods=["GET"])
 @login_required
 def new_space_form():
-    username = f"Logged in as: {session['username']}"
+    username = f"{session['username']}"
     return render_template("create_new_space.html", username=username)
     # else:
     #     username = "Not logged in"
@@ -149,7 +150,7 @@ def get_individual_space(space_id):
     repository = SpaceRepository(connection)
     space = repository.find(space_id)
     if "username" in session and session["username"] != None:
-        username = f"Logged in as: {session['username']}"
+        username = f"{session['username']}"
         return render_template("single_space.html", username=username, space=space)
     else:
         username = "Not logged in"
@@ -173,12 +174,24 @@ def display_about_page():
                  'Luis': 'https://ca.slack-edge.com/T03ALA7H4-U089649HLAG-f31e2ebbfeab-512'}
     
     if "username" in session and session["username"] != None:
-        username = f"Logged in as: {session['username']}"
-        return render_template("about.html", founders = founders, spaces=spaces, username=username)
+        username = f"{session['username']}"
+        return render_template("about.html", spaces=spaces, username=username)
     else:
         username = "Not logged in"
         return render_template("about.html", founders = founders, spaces=spaces, username=username)
 
+@app.route("/user/<username>", methods=["GET"])
+def get_individual_user(username):
+    connection = get_flask_database_connection(app)
+    repository = UserRepository(connection)
+    user = repository.find_by_username(username)
+    if "username" in session and session["username"] != None:
+        logged_in_username = f"{session['username']}"
+        return render_template("single_user.html", user=user, logged_in_username=logged_in_username)
+    else:
+        logged_in_username = "Not logged in"
+        return render_template("single_user.html", user=user, logged_in_username=logged_in_username)
+    
 
 # ABOUT ROUTE
 
