@@ -254,6 +254,22 @@ input[type="submit"]:hover {
     border: 1px solid var(--border);
 }
 
+.founder-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
+    text-decoration: none;
+    color: var(--text-dark);
+    border: 1px solid var(--border);
+}
+
+.founder-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
 .space-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-md);
@@ -264,6 +280,19 @@ input[type="submit"]:hover {
     height: 200px;
     object-fit: contain;
     background-color: var(--background-light);
+}
+
+.founder-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background-color: var(--background-light);
+}
+
+.founder-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
 
 .space-image img {

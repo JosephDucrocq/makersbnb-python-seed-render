@@ -30,3 +30,5 @@ INSERT INTO users (username, encrypted_password) VALUES ('Joseph', '6380dcbb2728
 
 INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Makers Villa', 'London', 'Beautiful refurbished industrial warehouse', 150, '{"2025-03-12": true, "2025-03-13": true, "2025-03-14": false}', 'https://as-images.imgix.net/e0e91fbfcbda875d65ccfc75fcc8d60a-DRC_9449.jpg', 1);
 INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Josephs farm', 'Gorenflos', 'Traditional French potato farm. Perfect for couple retreat', 90, '{"2025-07-5" : false}', 'https://i.redd.it/1z3atrfp76d01.jpg', 2);
+INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Makers Retreat', 'Bali', 'Perfect for a digital detox after a very long bootcamp.', 160, '{"2025-02-01":true}', 'https://static1.squarespace.com/static/5b43674975f9ee7f0ff1df28/t/62fe3fd35115865134a6985f/1660829657669/bali-yoga-retreat-center-ubud-shala.jpg?format=1500w', 1);
+
