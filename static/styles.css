@@ -239,6 +239,7 @@ input[type="submit"]:hover {
 .spaces-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    justify-content: center;
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
 }
@@ -282,6 +283,7 @@ input[type="submit"]:hover {
     background-color: var(--background-light);
 }
 
+
 .founder-image {
     width: 100%;
     height: 200px;
@@ -292,7 +294,20 @@ input[type="submit"]:hover {
 .founder-image img {
     height: 100%;
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
+}
+
+.banner-image {
+    width: 100%;
+    height: 300px;
+    object-fit: fill;
+    background-color: var(--background-light);
+}
+
+.banner-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .space-image img {
