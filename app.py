@@ -13,7 +13,7 @@ app.secret_key = "this_is_a_super_secret_key"
 def login_required(func):
     def secure_function():
         if "username" not in session or session["username"] == None:
-            session['url'] = url_for('create_new_space')
+            session["url"] = url_for("create_new_space")
             return redirect(("/login"))
         return func()
 
@@ -79,9 +79,9 @@ def login():
     password = request.form["password"]
     if users_repository.check_password(attempted_user, password):
         session["username"] = attempted_user
-        if 'url' in session:
-            return redirect(session['url'])
-        return redirect('/')
+        if "url" in session:
+            return redirect(session["url"])
+        return redirect("/")
     else:
         return redirect("/login")
 
@@ -134,15 +134,30 @@ def create_new_space():
     location = request.form["location"]
     description = request.form["description"]
     price_per_night = request.form["price_per_night"]
-    start_date = request.form["start_date"] # for the available dates dict
-    end_date = request.form["end_date"] # for the available dates dict
-    image_url = request.form['image_url'] if request.form['image_url'] != '' else "https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png"
-    user_id = users_repository.find_by_username(session['username']).id
-    if name != "" and location != "" and description != "" and price_per_night != None: #and start_date != None and end_date != None:
+    start_date = request.form["start_date"]  # for the available dates dict
+    end_date = request.form["end_date"]  # for the available dates dict
+    image_url = (
+        request.form["image_url"]
+        if request.form["image_url"] != ""
+        else "https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png"
+    )
+    user_id = users_repository.find_by_username(session["username"]).id
+    if (
+        name != "" and location != "" and description != "" and price_per_night != None
+    ):  # and start_date != None and end_date != None:
         valid_new_space = True
     if valid_new_space:
         new_space = Space(
-            None, name, location, description, price_per_night, start_date, end_date, image_url, user_id)
+            None,
+            name,
+            location,
+            description,
+            price_per_night,
+            start_date,
+            end_date,
+            image_url,
+            user_id,
+        )
         spaces_repository.create(new_space)
         return redirect("/spaces")
     else:
@@ -213,6 +228,22 @@ def get_individual_user(username):
         username=username,
         logged_in_username=logged_in_username,
     )
+
+
+@app.route("/book/<space_id>", methods=["GET"])
+def book_space(space_id):
+    """Display booking page for a space with an interactive calendar"""
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    space = repository.find(space_id)
+
+    # Check if user is logged in
+    if "username" in session and session["username"] != None:
+        username = f"{session['username']}"
+    else:
+        username = "Not logged in"
+
+    return render_template("booking.html", username=username, space=space)
 
 
 # ABOUT ROUTE
