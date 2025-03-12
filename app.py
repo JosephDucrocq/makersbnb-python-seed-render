@@ -141,10 +141,10 @@ def get_individual_space(space_id):
     space = repository.find(space_id)
     if "username" in session and session["username"] != None:
         username = f"Logged in as: {session['username']}"
-        return render_template("single_space.html", username=username)
+        return render_template("single_space.html", username=username, space=space)
     else:
         username = "Not logged in"
-        return render_template("single_space.html", username=username)
+        return render_template("single_space.html", username=username, space=space)
 
 
 # SPACES ROUTES

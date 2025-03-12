@@ -422,3 +422,133 @@ footer {
         padding: 0 var(--spacing-sm);
     }
 }
+
+/* Single Space Page Styles */
+.single-space {
+    margin-top: var(--spacing-lg);
+}
+
+.single-space-gallery {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    height: 400px;
+    background-color: var(--background-light);
+    margin-bottom: var(--spacing-lg);
+}
+
+.single-space-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.single-space-header {
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--spacing-md);
+}
+
+.single-space-title {
+    font-size: 32px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.single-space-location {
+    color: var(--text-medium);
+    font-size: 18px;
+}
+
+.single-space-details {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-xl);
+}
+
+.single-space-info {
+    color: var(--text-dark);
+}
+
+.features-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.features-list li {
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    padding-left: var(--spacing-lg);
+}
+
+.features-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+.booking-card {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+    position: sticky;
+    top: var(--spacing-lg);
+}
+
+.space-price {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.space-price span {
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--text-medium);
+}
+
+.availability-badge {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.available {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+.unavailable {
+    background-color: #FFEBEE;
+    color: #C62828;
+}
+
+.btn-full {
+    width: 100%;
+    text-align: center;
+}
+
+/* Responsive adjustments for single space page */
+@media (max-width: 768px) {
+    .single-space-details {
+        grid-template-columns: 1fr;
+    }
+
+    .single-space-gallery {
+        height: 300px;
+    }
+
+    .single-space-title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .single-space-gallery {
+        height: 250px;
+    }
+}
