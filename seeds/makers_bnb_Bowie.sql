@@ -16,7 +16,7 @@ CREATE TABLE spaces (
     name TEXT,
     location TEXT,
     description TEXT,
-    price_per_night FLOAT,
+    price_per_night INT,
     dates_available_dict JSON, 
     image_content TEXT,
     user_id int,
