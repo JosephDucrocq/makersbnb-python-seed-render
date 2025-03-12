@@ -24,11 +24,15 @@ class UserRepository:
 
     def find_by_id(self, id: int):
         rows = self._connection.execute("SELECT * from users WHERE id = %s", [id])
+        if len(rows) == 0:
+            return None
         row = rows[0]
         return User.from_database(row["id"], row["username"], row["encrypted_password"])
     
     def find_by_username(self, username: str):
         rows = self._connection.execute("SELECT * from users WHERE username = %s", [username])
+        if len(rows) == 0:
+            return None
         row = rows[0]
         return User.from_database(row["id"], row["username"], row["encrypted_password"])
     

@@ -9,6 +9,12 @@ from lib.user import User
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
 
+def login_required(func):
+    def secure_function():
+        if "username" not in session or session["username"] == None:
+            return redirect(("/login"))
+        return func()
+    return secure_function
 
 # WELCOME ROUTES
 @app.route("/", methods=["GET"])
@@ -103,18 +109,19 @@ def display_spaces_page():
 
 
 @app.route("/spaces/new", methods=["GET"])
+@login_required
 def new_space_form():
-    if "username" in session and session["username"] != None:
-        username = f"Logged in as: {session['username']}"
-        return render_template("create_new_space.html", username=username)
-    else:
-        username = "Not logged in"
-        return render_template("create_new_space.html", username=username)
+    username = f"Logged in as: {session['username']}"
+    return render_template("create_new_space.html", username=username)
+    # else:
+    #     username = "Not logged in"
+    #     return render_template("create_new_space.html", username=username)
 
 
 @app.route("/spaces/new", methods=["POST"])
 def create_new_space():
     _connection = get_flask_database_connection(app)
+    users_repository = UserRepository(_connection)
     spaces_repository = SpaceRepository(_connection)
     valid_new_space = False
     name = request.form["name"]
@@ -122,11 +129,12 @@ def create_new_space():
     description = request.form["description"]
     price_per_night = request.form["price_per_night"]
     availability = request.form["availability"] #TODO Checkboxes in html forms do not send anything when unchecked so currently new space fails if availability is not checked
+    user_id = users_repository.find_by_username(session['username']).id
     if name != "" and location != "" and description != "" and price_per_night != None:
         valid_new_space = True
     if valid_new_space:
         new_space = Space(
-            None, name, location, description, availability, price_per_night, "https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png", 1
+            None, name, location, description, availability, price_per_night, "https://upload.wikimedia.org/wikipedia/commons/3/3b/Picture_Not_Yet_Available.png", user_id
         )
         spaces_repository.create(new_space)
         return redirect("/spaces")
