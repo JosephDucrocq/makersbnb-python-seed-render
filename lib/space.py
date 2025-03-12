@@ -15,12 +15,6 @@ class Space():
     
     def __repr__(self):
         return f"Space(ID: {self.id}, Name: {self.name}, Location: {self.location}, Description: {self.description}, Price: {self.price_per_night}, Dates Available: {self.dates_available_dict}, Image: {self.image_content}, User_ID: {self.user_id})"
-    
-    def become_available(self):
-        self.availability = True
-        
-    def become_unavailable(self):
-        self.availability = False
 
     def create_dates_availability_dict(self, start_date: datetime, end_date: datetime) -> dict:
         dates_available_dict = {}
