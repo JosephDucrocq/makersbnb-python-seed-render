@@ -236,7 +236,10 @@ input[type="date"] {
     font-size: 16px;
     font-family: var(--font-family);
     transition: border-color 0.2s ease;
+}
 
+textarea{
+    resize: none;
 }
 
 input[type="url"],
@@ -246,6 +249,7 @@ input[type="email"],
 input[type="number"],
 textarea,
 select {
+    caret-color: var(--primary);
     width: 100%;
     padding: var(--spacing-md);
     border: 1px solid var(--border);
@@ -264,7 +268,7 @@ input[type="number"]:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    border-color: var(--secondary);
+    border-color: var(--primary);
 }
 
 input[type="checkbox"] {
@@ -459,6 +463,10 @@ footer {
 /* Utility Classes */
 .text-center {
     text-align: center;
+}
+
+.vm-25 {
+    margin: 25px auto;
 }
 
 .mt-1 {
