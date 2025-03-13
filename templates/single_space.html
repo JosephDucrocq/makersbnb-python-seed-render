@@ -9,7 +9,7 @@
 
 <body>
     <header>
-        <div class="container navbar">
+        <nav class="navbar">
             <a href="/" class="logo">MakersBnB</a>
             <div>
                 {% if username == "Not logged in"%}
@@ -25,7 +25,7 @@
     </header>
 
     <main>
-        <div class="container">
+        <div class="container vm-25">
             <div class="mb-3">
                 <a href="/spaces" class="btn btn-secondary btn-sm">&larr; Back to all spaces</a>
             </div>
@@ -43,7 +43,7 @@
 
                     <div class="single-space-details">
                         <div class="single-space-info">
-                            <h2 class="mb-2">About this space</h2>
+                            <h2 class="mb-2">More Info</h2>
                             <p>{{space.description}}</p>
 
                             <div class="space-features mt-4">
@@ -80,12 +80,12 @@
     <footer>
         <div class="container footer-content">
             <p>© 2025 MakersBnB, Inc.</p>
-            <div class="footer-links">
-                <a href="/">Home</a>
-                <a href="/spaces">Spaces</a>
-                <a href="/about">About</a>
-                <a href="/contact">Contact</a>
-            </div>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/spaces">Spaces</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
         </div>
     </footer>
 </body>

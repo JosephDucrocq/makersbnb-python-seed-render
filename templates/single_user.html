@@ -9,7 +9,7 @@
 
 <body>
     <header>
-        <div class="container navbar">
+        <nav class="navbar">
             <a href="/" class="logo">MakersBnB</a>
             <div>
                 {% if logged_in_username == "Not logged in"%}
@@ -20,17 +20,16 @@
                 <a href="/logout" class="btn btn-secondary">Log Out</a>
                 {% endif %}
             </div>
-        </div>
+        </nav>
     </header>
 
     <main>
-        <div class="container">
+        <div class="container vm-25">
             <h1>{{ user.username }}'s Profile</h1>
 
             <div class="profile-container">
                 <!-- Left side: Spaces -->
                 <div class="spaces-container">
-
                     {% if spaces %}
                     <div class="spaces-grid">
                         {% for space in spaces %}
@@ -105,12 +104,12 @@
     <footer>
         <div class="container footer-content">
             <p>© 2025 MakersBnB, Inc.</p>
-            <div class="footer-links">
-                <a href="/">Home</a>
-                <a href="/spaces">Spaces</a>
-                <a href="/about">About</a>
-                <a href="/contact">Contact</a>
-            </div>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/spaces">Spaces</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
         </div>
     </footer>
 </body>
