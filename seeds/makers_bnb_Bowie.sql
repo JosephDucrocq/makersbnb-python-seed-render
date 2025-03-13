@@ -39,7 +39,13 @@ CREATE TABLE bookings (
         constraint fk_space foreign key(space_id)
         references spaces(id)
         on delete cascade,
-    approved BOOLEAN
+    start_date DATE,
+    end_date DATE,
+    subtotal DECIMAL(10,2) DEFAULT 0,
+    service_fee DECIMAL(10,2) DEFAULT 0,
+    total DECIMAL(10,2) DEFAULT 0,
+    status VARCHAR(20) DEFAULT 'confirmed',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO users (username, encrypted_password) VALUES ('Luis', 'f5d44b29add0d1a87b9edc82e7c5a9fd'); -- Password: IloveTaylorSwift
@@ -51,4 +57,3 @@ INSERT INTO spaces (name, location, description, price_per_night, dates_availabl
 INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Makers Retreat', 'Bali', 'Perfect for a digital detox after a very long bootcamp.', 160, '{"2025-02-01":true}', 'https://static1.squarespace.com/static/5b43674975f9ee7f0ff1df28/t/62fe3fd35115865134a6985f/1660829657669/bali-yoga-retreat-center-ubud-shala.jpg?format=1500w', 1);
 INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Bowser Castle', 'Hell', 'Welcome to Bowser Castle. Make you sure you bring some sunscreen.', 1, '{"2024-12-21":true}', 'https://mario.wiki.gallery/images/thumb/b/b0/BowsersCastleMKW.png/1600px-BowsersCastleMKW.png', 1);
 INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES ('Rivendell', 'Far away', 'Perfect for a city break. Quiet and relaxing, you will share the castle with the lovely habitants.', 200,'{"2023-06-14":true}', 'https://collectiveshara426.weebly.com/uploads/1/2/3/7/123705642/794705490.jpg', 2)
-

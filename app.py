@@ -5,6 +5,8 @@ from lib.user_repository import UserRepository
 from lib.user import User
 from lib.space_repository import SpaceRepository
 from lib.space import Space
+from lib.booking_repository import BookingRepository
+from lib.booking import Booking
 
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
@@ -23,6 +25,8 @@ def login_required(func):
 # WELCOME ROUTES
 @app.route("/", methods=["GET"])
 def welcome():
+    if session.get('username') == False:
+        session['username'] = None
     if "username" in session and session["username"] != None:
         username = f"{session['username']}"
         _connection = get_flask_database_connection(app)
@@ -186,14 +190,15 @@ def display_about_page():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     spaces = repository.all()
-    founders = {
-        "Andrew Pang": "https://ca.slack-edge.com/T03ALA7H4-U089649MMQC-c22713126f2f-512",
-        "Will Egerton": "https://ca.slack-edge.com/T03ALA7H4-U089SD1E83A-9fef626c96b4-512",
-        "Jack Misner": "https://ca.slack-edge.com/T03ALA7H4-U089CLJQMKK-9b3e6a0e85de-512",
-        "Joseph Ducrocq": "https://ca.slack-edge.com/T03ALA7H4-U088KDUVD0F-c40d5d623bb1-512",
-        "John Rothera": "https://ca.slack-edge.com/T03ALA7H4-U0893FT4Q7M-cd53f939148c-512",
-        "Luis Moseley-Robinson": "https://ca.slack-edge.com/T03ALA7H4-U089649HLAG-f31e2ebbfeab-512",
-    }
+    
+    founders = [
+        {'name': 'Andrew Pang', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089649MMQC-c22713126f2f-512", "ghprofile": 'https://github.com/pangacm'},
+        {'name': 'Will Egerton', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089SD1E83A-9fef626c96b4-512", "ghprofile": 'https://github.com/WEgerton'},
+        {'name': 'Jack Misner', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089CLJQMKK-9b3e6a0e85de-512", "ghprofile": 'https://github.com/jackmisner'},
+        {'name': 'Joseph Ducrocq', 'image': "https://ca.slack-edge.com/T03ALA7H4-U088KDUVD0F-c40d5d623bb1-512", "ghprofile": 'https://github.com/JosephDucrocq'},
+        {'name': 'John Rothera', 'image': "https://ca.slack-edge.com/T03ALA7H4-U0893FT4Q7M-cd53f939148c-512", "ghprofile": 'https://github.com/JohnRothera'},
+        {'name': 'Luis Moseley-Robinson', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089649HLAG-f31e2ebbfeab-512", "ghprofile": 'https://github.com/fastongithub'}
+    ]
 
     if "username" in session and session["username"] != None:
         username = f"{session['username']}"
@@ -244,6 +249,106 @@ def book_space(space_id):
         username = "Not logged in"
 
     return render_template("booking.html", username=username, space=space)
+
+
+@app.route("/book/<space_id>/confirm", methods=["POST"])
+def confirm_booking(space_id):
+    """Create a new booking and show confirmation page"""
+    # Ensure user is logged in
+    if "username" not in session or session["username"] is None:
+        return redirect("/login")
+
+    # Get form data
+    check_in_date = request.form.get("check_in_date")
+    check_out_date = request.form.get("check_out_date")
+    nights = int(request.form.get("nights", 0))
+    total_price = float(request.form.get("total_price", 0))
+
+    # Calculate subtotal and service fee (assuming 12% service fee)
+    connection = get_flask_database_connection(app)
+    space_repository = SpaceRepository(connection)
+    user_repository = UserRepository(connection)
+    booking_repository = BookingRepository(connection)
+
+    space = space_repository.find(space_id)
+    user = user_repository.find_by_username(session["username"])
+
+    subtotal = float(space.price_per_night) * nights
+    service_fee = round(subtotal * 0.12, 2)  # 12% service fee
+
+    # Create new booking
+    from lib.booking import Booking
+
+    booking = Booking(
+        id=None,
+        start_date=check_in_date,
+        end_date=check_out_date,
+        user_id=user.id,
+        space_id=space_id,
+        subtotal=subtotal,
+        service_fee=service_fee,
+        total=total_price or (subtotal + service_fee),
+        status="confirmed",
+    )
+
+    # Save booking to database
+    booking = booking_repository.create(booking)
+
+    # Redirect to confirmation page
+    return redirect(f"/bookings/{booking.id}/confirmation")
+
+
+@app.route("/bookings/<booking_id>/confirmation", methods=["GET"])
+def booking_confirmation(booking_id):
+    """Show booking confirmation details"""
+    # Ensure user is logged in
+    if "username" not in session or session["username"] is None:
+        return redirect("/login")
+
+    # Get booking details
+    connection = get_flask_database_connection(app)
+    booking_repository = BookingRepository(connection)
+    space_repository = SpaceRepository(connection)
+
+    booking = booking_repository.find(booking_id)
+
+    # Ensure the booking exists
+    if booking is None:
+        return redirect("/spaces")
+
+    # Get space details
+    space = space_repository.find(booking.space_id)
+
+    username = session["username"]
+    return render_template(
+        "booking_confirmation.html", username=username, booking=booking, space=space
+    )
+
+
+@app.route("/user/<username>/bookings", methods=["GET"])
+def user_bookings(username):
+    """Show a user's bookings"""
+    # Ensure user is logged in and viewing their own bookings
+    if "username" not in session or session["username"] != username:
+        return redirect("/login")
+
+    connection = get_flask_database_connection(app)
+    user_repository = UserRepository(connection)
+    booking_repository = BookingRepository(connection)
+    space_repository = SpaceRepository(connection)
+
+    user = user_repository.find_by_username(username)
+    bookings = booking_repository.find_by_user(user.id)
+
+    # Get space details for each booking
+    booking_details = []
+    for booking in bookings:
+        space = space_repository.find(booking.space_id)
+        booking_details.append({"booking": booking, "space": space})
+
+    return render_template(
+        "user_bookings.html", username=username, booking_details=booking_details
+    )
 
 
 # ABOUT ROUTE
