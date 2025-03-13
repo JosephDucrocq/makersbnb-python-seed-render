@@ -5,6 +5,8 @@ from lib.user_repository import UserRepository
 from lib.user import User
 from lib.space_repository import SpaceRepository
 from lib.space import Space
+from lib.booking_repository import BookingRepository
+from lib.booking import Booking
 
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
@@ -245,6 +247,106 @@ def book_space(space_id):
         username = "Not logged in"
 
     return render_template("booking.html", username=username, space=space)
+
+
+@app.route("/book/<space_id>/confirm", methods=["POST"])
+def confirm_booking(space_id):
+    """Create a new booking and show confirmation page"""
+    # Ensure user is logged in
+    if "username" not in session or session["username"] is None:
+        return redirect("/login")
+
+    # Get form data
+    check_in_date = request.form.get("check_in_date")
+    check_out_date = request.form.get("check_out_date")
+    nights = int(request.form.get("nights", 0))
+    total_price = float(request.form.get("total_price", 0))
+
+    # Calculate subtotal and service fee (assuming 12% service fee)
+    connection = get_flask_database_connection(app)
+    space_repository = SpaceRepository(connection)
+    user_repository = UserRepository(connection)
+    booking_repository = BookingRepository(connection)
+
+    space = space_repository.find(space_id)
+    user = user_repository.find_by_username(session["username"])
+
+    subtotal = float(space.price_per_night) * nights
+    service_fee = round(subtotal * 0.12, 2)  # 12% service fee
+
+    # Create new booking
+    from lib.booking import Booking
+
+    booking = Booking(
+        id=None,
+        start_date=check_in_date,
+        end_date=check_out_date,
+        user_id=user.id,
+        space_id=space_id,
+        subtotal=subtotal,
+        service_fee=service_fee,
+        total=total_price or (subtotal + service_fee),
+        status="confirmed",
+    )
+
+    # Save booking to database
+    booking = booking_repository.create(booking)
+
+    # Redirect to confirmation page
+    return redirect(f"/bookings/{booking.id}/confirmation")
+
+
+@app.route("/bookings/<booking_id>/confirmation", methods=["GET"])
+def booking_confirmation(booking_id):
+    """Show booking confirmation details"""
+    # Ensure user is logged in
+    if "username" not in session or session["username"] is None:
+        return redirect("/login")
+
+    # Get booking details
+    connection = get_flask_database_connection(app)
+    booking_repository = BookingRepository(connection)
+    space_repository = SpaceRepository(connection)
+
+    booking = booking_repository.find(booking_id)
+
+    # Ensure the booking exists
+    if booking is None:
+        return redirect("/spaces")
+
+    # Get space details
+    space = space_repository.find(booking.space_id)
+
+    username = session["username"]
+    return render_template(
+        "booking_confirmation.html", username=username, booking=booking, space=space
+    )
+
+
+@app.route("/user/<username>/bookings", methods=["GET"])
+def user_bookings(username):
+    """Show a user's bookings"""
+    # Ensure user is logged in and viewing their own bookings
+    if "username" not in session or session["username"] != username:
+        return redirect("/login")
+
+    connection = get_flask_database_connection(app)
+    user_repository = UserRepository(connection)
+    booking_repository = BookingRepository(connection)
+    space_repository = SpaceRepository(connection)
+
+    user = user_repository.find_by_username(username)
+    bookings = booking_repository.find_by_user(user.id)
+
+    # Get space details for each booking
+    booking_details = []
+    for booking in bookings:
+        space = space_repository.find(booking.space_id)
+        booking_details.append({"booking": booking, "space": space})
+
+    return render_template(
+        "user_bookings.html", username=username, booking_details=booking_details
+    )
 
 
 # ABOUT ROUTE
