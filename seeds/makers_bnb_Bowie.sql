@@ -38,7 +38,8 @@ CREATE TABLE bookings (
     space_id int,
         constraint fk_space foreign key(space_id)
         references spaces(id)
-        on delete cascade
+        on delete cascade,
+    approved BOOLEAN
 );
 
 INSERT INTO users (username, encrypted_password) VALUES ('Luis', 'f5d44b29add0d1a87b9edc82e7c5a9fd'); -- Password: IloveTaylorSwift

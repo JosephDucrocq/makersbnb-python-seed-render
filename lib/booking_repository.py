@@ -8,7 +8,7 @@ class BookingRepository():
         rows = self._connection.execute("SELECT * FROM bookings")
         bookings = []
         for row in rows:
-            booking = Booking(row["id"], row['requested_dates'], row['user_id'], row['space_id'])
+            booking = Booking.from_database(row["id"], row['requested_dates'], row['user_id'], row['space_id'], row['approved'])
             bookings.append(booking)
         return bookings
 
@@ -17,7 +17,7 @@ class BookingRepository():
             "SELECT * FROM bookings WHERE id = %s", [search_id]
         )
         row = rows[0]
-        booking = Booking.from_database(row["id"], row['requested_dates'], row['user_id'], row['space_id'])
+        booking = Booking.from_database(row["id"], row['requested_dates'], row['user_id'], row['space_id'], row['approved'])
         return booking
     
     def find_by_space(self, space_id: int):
@@ -25,13 +25,13 @@ class BookingRepository():
             "SELECT * FROM bookings WHERE space_id = %s", [space_id]
         )
         row = rows[0]
-        booking = Booking.from_database(row["id"], row['requested_dates'], row['user_id'], row['space_id'])
+        booking = Booking.from_database(row["id"], row['requested_dates'], row['user_id'], row['space_id'], row['approved'])
         return booking
 
     def create(self, booking) -> None:
         self._connection.execute(
-                "INSERT INTO bookings (requested_dates, user_id, space_id) VALUES (%s, %s, %s)",
-                [booking.requested_dates, booking.user_id, booking.space_id],
+                "INSERT INTO bookings (requested_dates, user_id, space_id) VALUES (%s, %s, %s, %s)",
+                [booking.requested_dates, booking.user_id, booking.space_id, booking.approved],
             )
 
     def delete(self, booking_id: int) -> None:
