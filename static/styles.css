@@ -345,6 +345,22 @@ input[type="submit"]:hover {
     margin: var(--spacing-lg) 0;
 }
 
+.preview-spaces-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+}
+
+.preview-spaces-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    box-shadow: var(--shadow-md);
+}
+
 .space-card {
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -355,9 +371,27 @@ input[type="submit"]:hover {
     color: var(--text-dark);
     border: 1px solid var(--border);
     margin: 10px 10px;
-    padding: var(--spacing-md)
+    /* padding: var(--spacing-md) */
+}
+.preview-space-card {
+    display: flex;
+    text-align: left;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
+    color: var(--text-dark);
+    border: 1px solid var(--border);
+    margin: var(--spacing-sm) var(--spacing-sm);
+    padding: var(--spacing-md);
 }
 
+.preview-space-card-details {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-lg);
+}
 /* .founder-card {
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -438,6 +472,22 @@ input[type="submit"]:hover {
 .space-price {
     font-weight: 600;
     margin-top: var(--spacing-sm);
+}
+
+.preview-space-location {
+    color: var(--text-medium);
+    font-size: 14px;
+    /* margin-bottom: var(--spacing-xs); */
+}
+
+.preview-space-description {
+
+}
+
+.preview-space-price{
+    color: var(--text-medium);
+    font-size: 14px;
+    margin-bottom: var(--spacing-xs);
 }
 
 /* Footer */
@@ -707,13 +757,6 @@ footer {
 }
 
 /* Profile layout */
-.profile-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
 .bookings-container {
     flex: 1;
     min-width: 250px;

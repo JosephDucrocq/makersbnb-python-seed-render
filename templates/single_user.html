@@ -11,6 +11,11 @@
     <header>
         <nav class="navbar">
             <a href="/" class="logo">MakersBnB</a>
+
+            <div class="hover-middle">
+                <h1 class="mb-4 true-middle">My Profile</h1>
+            </div>
+
             <div>
                 {% if logged_in_username == "Not logged in"%}
                 <a href="/login" class="btn btn-secondary mr-2">Login</a>
@@ -25,79 +30,76 @@
 
     <main>
         <div class="container vm-25">
-            <h1>{{ user.username }}'s Profile</h1>
-
-            <div class="profile-container">
-                <!-- Left side: Spaces -->
-                <div class="spaces-container">
-                    {% if spaces %}
-                    <div class="spaces-grid">
-                        {% for space in spaces %}
-                        <div class="space-card">
-                            <div class="space-details">
-                                <h2>{{ space.name }}</h2>
-                                <p class="space-location">{{ space.location }}</p>
-                                <p class="space-description">{{ space.description }}</p>
-                                <p class="space-availability">
+            <!-- Left side: Spaces -->
+            <div class="preview-spaces-container">
+                {% if spaces %}
+                <div class="preview-spaces-grid">
+                    {% for space in spaces %}
+                    <div class="preview-space-card">
+                        <div class="preview-space-card-details">
+                            <h2 style="margin-bottom: 0">{{ space.name }}</h2>
+                            <p class="preview-space-location">{{ space.location }}</p>
+                            <p class="preview-space-description">{{ space.description }}</p>
+                            <p class="space-availability">
+                                {% if space.availability %}
+                                <span class="available">Available</span>
+                                {% else %}
+                                <span class="unavailable">Currently Unavailable</span>
+                                {% endif %}
+                            </p>
+                            <div class="space-actions">
+                                <a href="/spaces/{{ space.id }}" class="btn btn-secondary">View Details</a>
+                                {% if logged_in_username == user.username %}
+                                <a href="/spaces/{{ space.id }}/toggle-availability" class="btn btn-secondary">
                                     {% if space.availability %}
-                                    <span class="available">Available</span>
+                                    Mark Unavailable
                                     {% else %}
-                                    <span class="unavailable">Currently Unavailable</span>
+                                    Mark Available
                                     {% endif %}
-                                </p>
-                                <div class="space-actions">
-                                    <a href="/spaces/{{ space.id }}" class="btn btn-secondary">View Details</a>
-                                    {% if logged_in_username == user.username %}
-                                    <a href="/spaces/{{ space.id }}/toggle-availability" class="btn btn-secondary">
-                                        {% if space.availability %}
-                                        Mark Unavailable
-                                        {% else %}
-                                        Mark Available
-                                        {% endif %}
-                                    </a>
-                                    {% endif %}
-                                </div>
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
-                    {% else %}
-                    <div class="empty-state">
-                        <p>{{ user.username }} hasn't listed any spaces yet.</p>
-                        {% if logged_in_username == user.username %}
-                        <a href="/spaces/new" class="btn">List a New Space</a>
-                        {% endif %}
-                    </div>
-                    {% endif %}
+                    {% endfor %}
                 </div>
-
-                <!-- Right side: Booking Requests -->
-                {% if logged_in_username == user.username %}
-                <div class="bookings-container">
-                    <h2>Booking Requests</h2>
-                    <div class="booking-links">
-                        <a href="/bookings/received" class="booking-link">
-                            Requests Received
-                            {% if received_count is defined and received_count > 0 %}
-                            <span class="count">{{ received_count }}</span>
-                            {% endif %}
-                        </a>
-                        <a href="/bookings/pending" class="booking-link">
-                            Pending Approvals
-                            {% if pending_count is defined and pending_count > 0 %}
-                            <span class="count">{{ pending_count }}</span>
-                            {% endif %}
-                        </a>
-                        <a href="/bookings/confirmed" class="booking-link">
-                            Confirmed Bookings
-                        </a>
-                        <a href="/bookings/history" class="booking-link">
-                            Booking History
-                        </a>
-                    </div>
+                {% else %}
+                <div class="empty-state">
+                    <p>{{ user.username }} hasn't listed any spaces yet.</p>
+                    {% if logged_in_username == user.username %}
+                    <a href="/spaces/new" class="btn">List a New Space</a>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>
+
+            <!-- Right side: Booking Requests -->
+            {% if logged_in_username == user.username %}
+            <div class="bookings-container">
+                <h2>Booking Requests</h2>
+                <div class="booking-links">
+                    <a href="/bookings/received" class="booking-link">
+                        Requests Received
+                        {% if received_count is defined and received_count > 0 %}
+                        <span class="count">{{ received_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="/bookings/pending" class="booking-link">
+                        Pending Approvals
+                        {% if pending_count is defined and pending_count > 0 %}
+                        <span class="count">{{ pending_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="/bookings/confirmed" class="booking-link">
+                        Confirmed Bookings
+                    </a>
+                    <a href="/bookings/history" class="booking-link">
+                        Booking History
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
         </div>
     </main>
 
