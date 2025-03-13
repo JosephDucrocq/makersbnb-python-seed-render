@@ -24,6 +24,13 @@ class SpaceRepository:
             spaces.append(space)
         return spaces
 
+    def update_available_dates(self, updated_dates_dict, space_id):
+        space_to_update = self.find(space_id)
+        self._connection.execute(
+            "UPDATE spaces SET dates_available_dict = %s WHERE spaces.id = %s",
+            [str(json.dumps(updated_dates_dict)), space_to_update.id],
+        )
+
     def find(self, search_id: int):
         rows = self._connection.execute(
             "SELECT * FROM spaces WHERE id = %s", [search_id]
