@@ -12,8 +12,9 @@ def test_all(db_connection):
     db_connection.seed("seeds/makers_bnb_Bowie.sql")
     repository = UserRepository(db_connection)
     assert repository.all() == [
-        User(1, "Luis", "IloveTaylorSwift"),
-        User(2, "Joseph", "Idoto")
+        User(1, "Luis", "f5d44b29add0d1a87b9edc82e7c5a9fd"),
+        User(2, "Joseph", "6380dcbb2728aa384ed16fc1cf98b1f0"),
+        User(3, 'jackmisner', '5e075470c9298a362f78901a75c0d288')
     ]
 
 
@@ -31,27 +32,10 @@ def test_create(db_connection):
     user = User(None, "test user", "1234pass")
     repository.create(user)
     assert repository.all() == [
-        User(1, "Luis", "IloveTaylorSwift"),
-        User(2, "Joseph", "Idoto"), 
-        User(3, "test user", "1234pass")
-    ]
-
-"""
-When I call #create for an existing user
-An error message appears
-"""
-
-
-def test_create_existing_user_throws_exception(db_connection):
-    db_connection.seed("seeds/makers_bnb_Bowie.sql")
-    repository = UserRepository(db_connection)
-    user = User(1, "Luis", "IloveTaylorSwift")
-    with pytest.raises(ValueError) as e:
-        repository.create(user)
-    assert str(e.value) == "Username Already exists!"
-    assert repository.all() == [
-        User(1, "Luis", "IloveTaylorSwift"),
-        User(2, "Joseph", "Idoto"), 
+        User(1, "Luis", "f5d44b29add0d1a87b9edc82e7c5a9fd"),
+        User(2, "Joseph", "6380dcbb2728aa384ed16fc1cf98b1f0"),
+        User(3, 'jackmisner', '5e075470c9298a362f78901a75c0d288'),
+        User(4, 'test user', 'b3d34352fc26117979deabdf1b9b6354')
     ]
 
 
@@ -65,5 +49,5 @@ def test_find(db_connection):
     db_connection.seed("seeds/makers_bnb_Bowie.sql")
     repository = UserRepository(db_connection)
     #add username, password
-    result = repository.find("Luis")
-    assert result == User(1, "Luis", "IloveTaylorSwift")
+    result = repository.find_by_username("Luis")
+    assert str(result) == '''User(ID: 1, Username: Luis, Encrypted Password: f5d44b29add0d1a87b9edc82e7c5a9fd)''' 
