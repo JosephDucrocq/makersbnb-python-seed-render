@@ -185,13 +185,17 @@ def create_new_space():
 def get_individual_space(space_id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
+    users_repository = UserRepository(connection)
     space = repository.find(space_id)
+    trying_to_view_own_space = False
     if "username" in session and session["username"] != None:
         username = f"{session['username']}"
-        return render_template("single_space.html", username=username, space=space)
+        if users_repository.find_by_username(username).id == space.user_id:
+            trying_to_view_own_space = True 
     else:
         username = "Not logged in"
-        return render_template("single_space.html", username=username, space=space)
+    return render_template("single_space.html", username=username, space=space, trying_to_view_own_space=trying_to_view_own_space)
+
 
 
 # SPACES ROUTES
