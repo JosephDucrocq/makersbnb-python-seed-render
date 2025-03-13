@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakersBnB - Welcome</title>
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <a href="/" class="logo">MakersBnB</a>
+      <div>
+        {% if username == "Not logged in"%}
+        <a href="/login" class="btn btn-secondary mr-2">Login</a>
+        <a href="/register" class="btn">Register</a>
+        {% else %}
+        <span class="mr-3">Welcome, {{username}}</span>
+        <a href="/user/{{username}}" class="btn btn-secondary">View Profile</a>
+        <a href="/logout" class="btn btn-secondary">Log Out</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container" style="max-width: 500px;">
+        <h1 class="text-center mb-4">Contact us</h1>
+
+        <form action="/form" method="POST" class="mb-4">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="comment">Comment</label>
+                <textarea id="comment"></textarea>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Submit" class="btn">
+            </div>
+        </form>
+    </div>
+</main>
+
+  <footer>
+    <div class="container footer-content">
+      <p>© 2025 MakersBnB, Inc.</p>
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/spaces">Spaces</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -5,6 +5,8 @@ from lib.user_repository import UserRepository
 from lib.user import User
 from lib.space_repository import SpaceRepository
 from lib.space import Space
+import smtplib
+from email.message import EmailMessage
 
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
@@ -248,6 +250,49 @@ def book_space(space_id):
 
 
 # ABOUT ROUTE
+
+# CONTACT ROUTE
+
+@app.route("/contact", methods=["GET"])
+def contact():
+
+    # Check if user is logged in
+    if "username" in session and session["username"] != None:
+        username = f"{session['username']}"
+    else:
+        username = "Not logged in"
+
+    return render_template("contact.html", username=username)
+
+@app.route("/form", methods=["POST"])
+def form():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    comment = request.form.get("contact")
+
+    msg = EmailMessage()
+    msg.set_content(f"Thank you {name}!\n\nYour comment has been received and we will respond within 2 working days.")
+
+    msg['Subject'] = 'Makersbnb: We\'re Here to Help with Your Issue'
+    msg['From'] = "makersbnb2025@gmail.com"
+    msg['To'] = email
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    #******CHANGE PASSWORD TO ENV VARIABLE*******
+    server.login("makersbnb2025@gmail.com", "GOOGLEAPPSECRET")
+    server.send_message(msg)
+
+    # Check if user is logged in
+    if "username" in session and session["username"] != None:
+        username = f"{session['username']}"
+    else:
+        username = "Not logged in"
+
+    return render_template("form.html", username=username, name=name)
+
+
+
+# CONTACT ROUTE
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
