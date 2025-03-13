@@ -9,6 +9,7 @@ class BookingRepository():
         bookings = []
         for row in rows:
             booking = Booking(row["id"], row['requested_dates'], row['user_id'], row['space_id'])
+            bookings.append(booking)
         return bookings
 
     def find(self, search_id: int):

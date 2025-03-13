@@ -156,7 +156,7 @@ def create_new_space():
             start_date,
             end_date,
             image_url,
-            user_id,
+            user_id
         )
         spaces_repository.create(new_space)
         return redirect("/spaces")
