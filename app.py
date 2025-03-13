@@ -247,6 +247,7 @@ def display_about_page():
 
 
 @app.route("/user/<username>", methods=["GET"])
+@login_required
 def get_individual_user(username):
     connection = get_flask_database_connection(app)
     user_repository = UserRepository(connection)
@@ -254,12 +255,8 @@ def get_individual_user(username):
 
     user = user_repository.find_by_username(username)
     spaces = space_repository.find_by_user_id(user.id)
-
-    if "username" in session and session["username"] != None:
-        logged_in_username = f"{session['username']}"
-    else:
-        logged_in_username = "Not logged in"
-
+    logged_in_username = f"{session['username']}"
+    
     return render_template(
         "single_user.html",
         user=user,
@@ -282,12 +279,9 @@ def book_space(space_id):
 
 
 @app.route("/book/<space_id>/confirm", methods=["POST"])
+@login_required
 def confirm_booking(space_id):
     """Create a new booking and show confirmation page"""
-    # Ensure user is logged in
-    if "username" not in session or session["username"] is None:
-        return redirect("/login")
-
     # Get form data
     check_in_date = request.form.get("check_in_date")
     check_out_date = request.form.get("check_out_date")
@@ -333,12 +327,9 @@ def confirm_booking(space_id):
 
 
 @app.route("/bookings/<booking_id>/confirmation", methods=["GET"])
+@login_required
 def booking_confirmation(booking_id):
     """Show booking confirmation details"""
-    # Ensure user is logged in
-    if "username" not in session or session["username"] is None:
-        return redirect("/login")
-
     # Get booking details
     connection = get_flask_database_connection(app)
     booking_repository = BookingRepository(connection)
@@ -360,11 +351,10 @@ def booking_confirmation(booking_id):
 
 
 @app.route("/user/<username>/bookings", methods=["GET"])
+@login_required
 def user_bookings(username):
     """Show a user's bookings"""
-    # Ensure user is logged in and viewing their own bookings
-    if "username" not in session or session["username"] != username:
-        return redirect("/login")
+
 
     connection = get_flask_database_connection(app)
     user_repository = UserRepository(connection)
