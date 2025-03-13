@@ -10,9 +10,14 @@
 
 <body>
   <header>
-    <div class="container navbar">
-      <a href="/" class="logo">MakersBnB</a>
-      <div>
+    <nav class="navbar">
+      <a href="/" class="logo hover-left">MakersBnB</a>
+
+      <div class="hover-middle">
+        <h1 class="mb-4 true-middle">Find your next perfect stay</h1>
+      </div>
+
+      <div class="hover-right">
         {% if username == "Not logged in"%}
         <a href="/login" class="btn btn-secondary mr-2">Login</a>
         <a href="/register" class="btn">Register</a>
@@ -22,34 +27,38 @@
         <a href="/logout" class="btn btn-secondary">Log Out</a>
         {% endif %}
       </div>
-    </div>
+    </nav>
   </header>
 
   <main>
-    <div class="container text-center">
-      <h1 class="mb-4">Find your next perfect stay</h1>
-      <p class="mb-4">Discover unique places to stay, whether for a weekend getaway or a longer adventure.</p>
-      <a href="/spaces" class="btn btn-lg">Explore Spaces</a>
+    <div class="full-width-container" style=height:100%>
+      <img src="https://www.myprivatevillas.com/homepage-header/01/my-private-villas-luxury-rentals-691751112_hu1c976dd42afe38601f1d7d04f876b725_165311_1900x0_resize_q90_lanczos.jpg" alt="Beautiful stay" style=opacity:70%;>
 
-      {% if username == "Not logged in"%}
-      <div class="mt-5">
-        <p class="mb-2">Already have an account?</p>
-        <a href="/login" class="btn btn-secondary mr-2">Login</a>
-        <a href="/register" class="btn">Register</a>
+      <div class="white-rounded-container true-middle">
+        <h1 class="mb-4" style=font-size:36px;>Discover</h1>
+        <p class="mb-4">Find unique places to stay, whether for a weekend getaway or a longer adventure.</p>
+        <a href="/spaces" class="btn btn-lg">Explore Spaces</a>
+  
+        {% if username == "Not logged in"%}
+        <div class="mt-5">
+          <p class="mb-2">Already have an account?</p>
+          <a href="/login" class="btn btn-secondary mr-2">Login</a>
+          <a href="/register" class="btn">Register</a>
+        </div>
+        {% endif %}
       </div>
-      {% endif %}
     </div>
   </main>
 
   <footer>
     <div class="container footer-content">
       <p>© 2025 MakersBnB, Inc.</p>
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/spaces">Spaces</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </div>
+    </div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/spaces">Spaces</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
     </div>
   </footer>
 </body>

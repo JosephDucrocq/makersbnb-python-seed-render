@@ -66,8 +66,19 @@ body {
 .container {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    padding: 0 0;
     width: 100%;
+}
+
+.white-rounded-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 40px 40px;
+    text-align: center;
+    background-color: white;
+    box-shadow: -11px 15px 13px 4px rgba(0,0,0,0.3);
+    border-radius: 25px;
+    opacity: 93%;
 }
 
 /* Header */
@@ -77,23 +88,51 @@ header {
     background-color: var(--background);
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.hover-right {
+    text-align: right;
+    vertical-align: middle;
 }
 
+.hover-left {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.true-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hover-middle {
+    text-align: center;
+}
+ /* nav classes */
+.navbar {
+    display: flex;
+    position: sticky;
+    align-items: center;
+    justify-content: space-between;
+    top: 0px;
+    background-blend-mode: darken;
+    background-size: cover;
+    color: black;
+    padding: 10px 20px;
+}
+ /* nav classes */
+
 .logo {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--primary);
     text-decoration: none;
+    margin: 0 5px;
 }
 
 /* Main Content */
 main {
     flex: 1;
-    padding: var(--spacing-xl) 0;
 }
 
 /* Typography */
@@ -116,7 +155,7 @@ h2 {
 }
 
 p {
-    margin-bottom: var(--spacing-md);
+    /* margin-bottom: var(--spacing-md); */
 }
 
 a {
@@ -376,18 +415,20 @@ input[type="submit"]:hover {
 
 /* Footer */
 footer {
-    border-top: 1px solid var(--border);
-    padding: var(--spacing-xl) 0;
+    display: flex;
+    position: sticky;
+    align-items: center;
+    justify-content: space-between;
+    background-size: cover;
     background-color: var(--background-light);
-    margin-top: auto;
+    color: black;
+    padding: var(--spacing-xl) 15px;
+    border-top: 1px solid var(--border);
 }
 
 .footer-content {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--spacing-md);
 }
 
 .footer-links a {
@@ -714,3 +755,60 @@ footer {
         /* Show bookings container first on mobile */
     }
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Full-screen image container */
+.image-border {
+    border-width: 10px;
+    border-color: black;
+}
+.image-container {
+    width: 200px;
+    height: 200px;
+    background-color: #0a0a23;
+    display: flex;
+    justify-content: center;
+}
+
+.image-container img {
+    width: 100px;
+    height: 100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto; /* Prevents horizontal scrolling */
+}
+
+/* Full-screen image container */
+.full-width-container {
+    position: relative;
+    width: 100vw;  /* Full viewport width */
+    overflow: hidden; /* Hides any extra content */
+    /* border: 2px solid var(--border); */
+}
+
+/* Make the image stretch fully */
+.full-width-container img {
+    width: 100%; /* Ensure it reaches full width */
+    height: 100%; /* Ensure it reaches full height */
+    object-fit: fill; /* Makes sure the image covers the whole area */
+    display: block;
+}
+
