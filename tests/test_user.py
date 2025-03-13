@@ -11,7 +11,7 @@ def test_user_object():
 
     assert user.id == 1
     assert user.username == "test user"
-    assert user.password == "1234pass"
+    assert user.encrypted_password == "b3d34352fc26117979deabdf1b9b6354"
 
 
 """
@@ -23,7 +23,7 @@ string
 def test_repr_of_user_object():
     user = User(1, "test user", "1234pass")
 
-    assert str(user) == "User(ID: 1, Username: test user, Password: 1234pass)"
+    assert str(user) == "User(ID: 1, Username: test user, Encrypted Password: b3d34352fc26117979deabdf1b9b6354)"
 
 
 """

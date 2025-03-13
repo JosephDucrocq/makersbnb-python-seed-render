@@ -1,20 +1,21 @@
 from lib.space import Space
 
 def test_space_can_instantiate():
-    space = Space(None, "Name", "Location", "Description", True, 50, 'link', 1)
+    space = Space(None, "Name", "Location", "Description",45, "2025-03-01", "2025-03-03", "https://www.google.com", 1)
     assert space.id == None
     assert space.name == "Name"
     assert space.location == "Location"
     assert space.description == "Description"
-    assert space.availability == True
-    assert space.price_per_night == 50
+    assert space.dates_available_dict == {"2025-03-01": True, "2025-03-02": True, "2025-03-03": True}
+    assert space.price_per_night == 45
+    assert space.image_content == "https://www.google.com"
     assert space.user_id == 1
 
 def test_2_identical_spaces_are_equal():
-    space1 = Space(None, "Name", "Location", "Description", True, 50, 'link', 1)
-    space2 = Space(None, "Name", "Location", "Description", True, 50, 'link', 1)
+    space1 = Space(None, "Name", "Location", "Description",45, "2025-03-01", "2025-03-03", "https://www.google.com", 1)
+    space2 = Space(None, "Name", "Location", "Description",45, "2025-03-01", "2025-03-03", "https://www.google.com", 1)
     assert space1 == space2
 
 def test_space_repr_looks_nice():
-    space = Space(None, "Buckingham Palace", "London", "It's a palace", True, 5, 'link', 1)
-    assert repr(space) == '''Space(ID: None, Name: Buckingham Palace, Location: London, Description: It's a palace, Availability: True, Price: 5, Image: link, User_ID: 1)'''
+    space = Space(None, "Buckingham Palace", "London", "It's a palace",45, "2025-03-01", "2025-03-03", "https://www.google.com", 1)
+    assert repr(space) == '''Space(ID: None, Name: Buckingham Palace, Location: London, Description: It's a palace, Price: 45, Dates Available: {'2025-03-01': True, '2025-03-02': True, '2025-03-03': True}, Image: https://www.google.com, User_ID: 1)'''

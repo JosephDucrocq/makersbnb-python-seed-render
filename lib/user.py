@@ -7,7 +7,7 @@ class User:
 
     def __repr__(self):
         return (
-            f"User(ID: {self.id}, Username: {self.username}, Password: {self.encrypted_password})"
+            f"User(ID: {self.id}, Username: {self.username}, Encrypted Password: {self.encrypted_password})"
         )
 
     def __eq__(self, other):
