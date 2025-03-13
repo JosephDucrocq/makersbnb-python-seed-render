@@ -54,11 +54,11 @@
                                 </div>
                                 <div class="confirmation-item">
                                     <span class="label">Check-in:</span>
-                                    <span class="value">{{booking.start_date}}</span>
+                                    <span class="value">{{booking.requested_dates_list[0][2:-1]}}</span>
                                 </div>
                                 <div class="confirmation-item">
                                     <span class="label">Check-out:</span>
-                                    <span class="value">{{booking.end_date}}</span>
+                                    <span class="value">{{booking.requested_dates_list[-1][2:-2]}}</span>
                                 </div>
                                 <div class="confirmation-item">
                                     <span class="label">Nights:</span>

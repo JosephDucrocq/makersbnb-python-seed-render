@@ -30,7 +30,6 @@ CREATE TABLE spaces (
 CREATE SEQUENCE IF NOT EXISTS bookings_id_seq;
 CREATE TABLE bookings (
     id SERIAL PRIMARY KEY,
-    requested_dates TEXT,
     user_id int,
         constraint fk_user foreign key(user_id)
         references users(id)
@@ -39,12 +38,11 @@ CREATE TABLE bookings (
         constraint fk_space foreign key(space_id)
         references spaces(id)
         on delete cascade,
-    start_date DATE,
-    end_date DATE,
+    requested_dates_list TEXT,
     subtotal DECIMAL(10,2) DEFAULT 0,
     service_fee DECIMAL(10,2) DEFAULT 0,
     total DECIMAL(10,2) DEFAULT 0,
-    status VARCHAR(20) DEFAULT 'confirmed',
+    approved BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

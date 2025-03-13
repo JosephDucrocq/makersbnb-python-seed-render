@@ -25,8 +25,8 @@ def login_required(func):
 # WELCOME ROUTES
 @app.route("/", methods=["GET"])
 def welcome():
-    if session.get('username') == False:
-        session['username'] = None
+    if session.get("username") == False:
+        session["username"] = None
     if "username" in session and session["username"] != None:
         username = f"{session['username']}"
         _connection = get_flask_database_connection(app)
@@ -160,7 +160,7 @@ def create_new_space():
             start_date,
             end_date,
             image_url,
-            user_id
+            user_id,
         )
         spaces_repository.create(new_space)
         return redirect("/spaces")
@@ -190,14 +190,38 @@ def display_about_page():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     spaces = repository.all()
-    
+
     founders = [
-        {'name': 'Andrew Pang', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089649MMQC-c22713126f2f-512", "ghprofile": 'https://github.com/pangacm'},
-        {'name': 'Will Egerton', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089SD1E83A-9fef626c96b4-512", "ghprofile": 'https://github.com/WEgerton'},
-        {'name': 'Jack Misner', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089CLJQMKK-9b3e6a0e85de-512", "ghprofile": 'https://github.com/jackmisner'},
-        {'name': 'Joseph Ducrocq', 'image': "https://ca.slack-edge.com/T03ALA7H4-U088KDUVD0F-c40d5d623bb1-512", "ghprofile": 'https://github.com/JosephDucrocq'},
-        {'name': 'John Rothera', 'image': "https://ca.slack-edge.com/T03ALA7H4-U0893FT4Q7M-cd53f939148c-512", "ghprofile": 'https://github.com/JohnRothera'},
-        {'name': 'Luis Moseley-Robinson', 'image': "https://ca.slack-edge.com/T03ALA7H4-U089649HLAG-f31e2ebbfeab-512", "ghprofile": 'https://github.com/fastongithub'}
+        {
+            "name": "Andrew Pang",
+            "image": "https://ca.slack-edge.com/T03ALA7H4-U089649MMQC-c22713126f2f-512",
+            "ghprofile": "https://github.com/pangacm",
+        },
+        {
+            "name": "Will Egerton",
+            "image": "https://ca.slack-edge.com/T03ALA7H4-U089SD1E83A-9fef626c96b4-512",
+            "ghprofile": "https://github.com/WEgerton",
+        },
+        {
+            "name": "Jack Misner",
+            "image": "https://ca.slack-edge.com/T03ALA7H4-U089CLJQMKK-9b3e6a0e85de-512",
+            "ghprofile": "https://github.com/jackmisner",
+        },
+        {
+            "name": "Joseph Ducrocq",
+            "image": "https://ca.slack-edge.com/T03ALA7H4-U088KDUVD0F-c40d5d623bb1-512",
+            "ghprofile": "https://github.com/JosephDucrocq",
+        },
+        {
+            "name": "John Rothera",
+            "image": "https://ca.slack-edge.com/T03ALA7H4-U0893FT4Q7M-cd53f939148c-512",
+            "ghprofile": "https://github.com/JohnRothera",
+        },
+        {
+            "name": "Luis Moseley-Robinson",
+            "image": "https://ca.slack-edge.com/T03ALA7H4-U089649HLAG-f31e2ebbfeab-512",
+            "ghprofile": "https://github.com/fastongithub",
+        },
     ]
 
     if "username" in session and session["username"] != None:
@@ -288,7 +312,7 @@ def confirm_booking(space_id):
         subtotal=subtotal,
         service_fee=service_fee,
         total=total_price or (subtotal + service_fee),
-        status="confirmed",
+        approved=False,
     )
 
     # Save booking to database
