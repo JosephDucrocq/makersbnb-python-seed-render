@@ -66,7 +66,7 @@ body {
 .container {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 0 var(--spacing-md);
+    padding: 0 0;
     width: 100%;
 }
 
@@ -77,9 +77,23 @@ header {
     background-color: var(--background);
 }
 
+.hover-right {
+    right: 0;
+    float: right;
+    background-color: red;
+}
+
+.hover-left {
+    left: 0;
+    float: left;
+    background-color: red;
+}
+
 .navbar {
-    display: flex;
-    justify-content: space-between;
+    max-width: 1120px;
+    margin: 0 0;
+    padding: 0 var(--spacing-md);
+    width: 100%;
     align-items: center;
 }
 
@@ -719,9 +733,6 @@ html, body {
 
 /* Full-screen image container */
 .full-width-container {
-    position: absolute; /* Ensures it starts at (0,0) */
-    top: 1000;
-    left: 0;
     width: 100vw;  /* Full viewport width */
     height: 100vh; /* Full viewport height */
     overflow: hidden; /* Hides any extra content */
