@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakersBnB - Booking Confirmation</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/booking.css">
+</head>
+
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="/" class="logo">MakersBnB</a>
+            <div>
+                {% if username == "Not logged in"%}
+                <a href="/login" class="btn btn-secondary mr-2">Login</a>
+                <a href="/register" class="btn">Register</a>
+                {% else %}
+                <span class="mr-3">Welcome, {{username}}</span>
+                <a href="/user/{{username}}" class="btn btn-secondary">View Profile</a>
+                <a href="/logout" class="btn btn-secondary">Log Out</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="confirmation-container">
+                <div class="confirmation-card">
+                    <div class="confirmation-header">
+                        <div class="confirmation-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <h1>Booking Requested!</h1>
+                        <p class="confirmation-subtitle">Your stay at {{space.name}} will be confirmed by the host soon!
+                        </p>
+                    </div>
+
+                    <div class="confirmation-details">
+                        <div class="confirmation-section">
+                            <h2>Booking Details</h2>
+                            <div class="confirmation-info">
+                                <div class="confirmation-item">
+                                    <span class="label">Confirmation Number:</span>
+                                    <span class="value">{{booking.id}}</span>
+                                </div>
+                                <div class="confirmation-item">
+                                    <span class="label">Check-in:</span>
+                                    <span class="value">{{booking.requested_dates_list[0][2:-1]}}</span>
+                                </div>
+                                <div class="confirmation-item">
+                                    <span class="label">Check-out:</span>
+                                    <span class="value">{{booking.requested_dates_list[-1][2:-2]}}</span>
+                                </div>
+                                <div class="confirmation-item">
+                                    <span class="label">Nights:</span>
+                                    <span class="value">{{booking.nights}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="confirmation-section">
+                            <h2>Payment Summary</h2>
+                            <div class="confirmation-info">
+                                <div class="confirmation-item">
+                                    <span class="label">£{{space.price_per_night}} x {{booking.nights}} nights</span>
+                                    <span class="value">£{{booking.subtotal}}</span>
+                                </div>
+                                <div class="confirmation-item">
+                                    <span class="label">Service fee</span>
+                                    <span class="value">£{{booking.service_fee}}</span>
+                                </div>
+                                <div class="confirmation-item total">
+                                    <span class="label">Total</span>
+                                    <span class="value">£{{booking.total}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="confirmation-space">
+                            <div class="confirmation-space-image">
+                                <img src="{{space.image_content}}" alt="{{space.name}}">
+                            </div>
+                            <div class="confirmation-space-info">
+                                <h3>{{space.name}}</h3>
+                                <p>{{space.location}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="confirmation-actions">
+                        <a href="/user/{{username}}" class="btn btn-secondary">View Your Bookings</a>
+                        <a href="/spaces" class="btn">Browse More Spaces</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>© 2025 MakersBnB, Inc.</p>
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/spaces">Spaces</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
