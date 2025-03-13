@@ -398,25 +398,36 @@ def contact():
 def form():
     name = request.form.get("name")
     email = request.form.get("email")
-    comment = request.form.get("comment")
+    comment = f"SENT FROM:\n {email}\n\nMESSAGE:\n"
+    comment += request.form.get("comment") 
 
-    msg = EmailMessage()
-    msg.set_content(f"Thank you {name}!\n\nYour comment has been received and we will respond within 2 working days.")
+    work_email = "makersbnb2025@gmail.com"
 
-    msg['Subject'] = 'Makersbnb: We\'re Here to Help with Your Issue'
-    msg['From'] = "makersbnb2025@gmail.com"
-    msg['To'] = email
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login("makersbnb2025@gmail.com", gmail_secret)
-    server.send_message(msg)
 
-    # msg.set_content(comment)
-    # msg['Subject'] = f"Query ticket raised from {name}"
-    # msg['From'] = "makersbnb2025@gmail.com"
-    # msg['To'] = "makersbnb2025@gmail.com"
-    # server.send_message(msg)
-
+    email_list = [
+        {
+            "email": email,
+            "content": f"Thank you {name}!\n\nYour comment has been received and we will respond within 2 working days.",
+            "subject": 'Makersbnb: We\'re Here to Help with Your Issue',
+        },
+        {
+            "email": work_email,
+            "content": comment,
+            "subject": f"DO NOT REPLY - Query ticket raised from: {name}"}
+            ]
+    
+    for mail in email_list:
+        msg = EmailMessage()
+        msg.set_content(mail['content'], subtype="plain", charset='us-ascii')
+        msg['Subject'] = mail['subject']
+        msg['From'] = work_email
+        msg['To'] = mail['email']
+        server.send_message(msg)
+    
+    server.quit()
 
     # Check if user is logged in
     if "username" in session and session["username"] != None:
@@ -425,7 +436,6 @@ def form():
         username = "Not logged in"
 
     return render_template("form.html", username=username, name=name)
-
 
 
 # CONTACT ROUTE
