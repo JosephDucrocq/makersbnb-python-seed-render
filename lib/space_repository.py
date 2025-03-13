@@ -45,6 +45,8 @@ class SpaceRepository():
 
     def create(self, space) -> None:
         dates_available_dict_json = json.dumps(space.dates_available_dict) # converting dictionary into json to then be inserted into database
+        self._connection.execute("INSERT INTO spaces (name, location, description, price_per_night, dates_available_dict, image_content, user_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                                 [space.name, space.location, space.description, space.price_per_night, str(dates_available_dict_json), space.image_content, space.user_id])
 
     def delete(self, space_id: int) -> None:
         self._connection.execute("DELETE FROM spaces WHERE id = %s", [space_id])
