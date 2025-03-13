@@ -25,6 +25,8 @@ def login_required(func):
 # WELCOME ROUTES
 @app.route("/", methods=["GET"])
 def welcome():
+    if session.get('username') == False:
+        session['username'] = None
     if "username" in session and session["username"] != None:
         username = f"{session['username']}"
         _connection = get_flask_database_connection(app)
@@ -158,7 +160,7 @@ def create_new_space():
             start_date,
             end_date,
             image_url,
-            user_id,
+            user_id
         )
         spaces_repository.create(new_space)
         return redirect("/spaces")
