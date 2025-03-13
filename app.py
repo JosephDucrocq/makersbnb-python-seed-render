@@ -10,7 +10,10 @@ import smtplib
 from email.message import EmailMessage
 from lib.booking_repository import BookingRepository
 from lib.booking import Booking
+from dotenv import load_dotenv
 
+load_dotenv()
+gmail_secret = os.getenv("GOOGLE_APP_SECRET")
 
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
@@ -395,7 +398,7 @@ def contact():
 def form():
     name = request.form.get("name")
     email = request.form.get("email")
-    comment = request.form.get("contact")
+    comment = request.form.get("comment")
 
     msg = EmailMessage()
     msg.set_content(f"Thank you {name}!\n\nYour comment has been received and we will respond within 2 working days.")
@@ -405,9 +408,15 @@ def form():
     msg['To'] = email
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
-    #******CHANGE PASSWORD TO ENV VARIABLE*******
-    server.login("makersbnb2025@gmail.com", "GOOGLEAPPSECRET")
+    server.login("makersbnb2025@gmail.com", gmail_secret)
     server.send_message(msg)
+
+    # msg.set_content(comment)
+    # msg['Subject'] = f"Query ticket raised from {name}"
+    # msg['From'] = "makersbnb2025@gmail.com"
+    # msg['To'] = "makersbnb2025@gmail.com"
+    # server.send_message(msg)
+
 
     # Check if user is logged in
     if "username" in session and session["username"] != None:
