@@ -343,10 +343,13 @@ footer {
     padding: var(--spacing-xl) 0;
     background-color: var(--background-light);
     margin-top: auto;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer-content {
-    display: flex;
+    display: block;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
@@ -677,3 +680,58 @@ footer {
         /* Show bookings container first on mobile */
     }
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Full-screen image container */
+.image-container {
+    width: 200px;
+    height: 200px;
+    background-color: #0a0a23;
+    display: flex;
+    justify-content: center;
+}
+
+.image-container img {
+    width: 100px;
+    height: 100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto; /* Prevents horizontal scrolling */
+}
+
+/* Full-screen image container */
+.full-width-container {
+    position: absolute; /* Ensures it starts at (0,0) */
+    top: 1000;
+    left: 0;
+    width: 100vw;  /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Hides any extra content */
+}
+
+/* Make the image stretch fully */
+.full-width-container img {
+    width: 100vw; /* Ensure it reaches full width */
+    height: 70vh; /* Ensure it reaches full height */
+    object-fit: fill; /* Makes sure the image covers the whole area */
+    display: block;
+}
+
