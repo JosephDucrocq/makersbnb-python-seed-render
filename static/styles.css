@@ -70,6 +70,14 @@ body {
     width: 100%;
 }
 
+.form-container {
+    max-width: 1120px;
+    margin: 25px auto;
+    padding: 0 0;
+    width: 100%;
+
+}
+
 .white-rounded-container {
     max-width: 1120px;
     margin: 0 auto;
@@ -221,6 +229,17 @@ label {
     color: var(--text-dark);
 }
 
+input[type="date"] {
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-family: var(--font-family);
+    transition: border-color 0.2s ease;
+
+}
+
+input[type="url"],
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -236,6 +255,8 @@ select {
     transition: border-color 0.2s ease;
 }
 
+input[type="date"]:focus,
+input[type="url"]:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
@@ -317,7 +338,7 @@ input[type="submit"]:hover {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     justify-content: center;
     gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
 }
 
 .space-card {
@@ -681,12 +702,6 @@ footer {
     flex-wrap: wrap;
     gap: 2rem;
     margin-bottom: 2rem;
-}
-
-
-.spaces-container {
-    flex: 2;
-    min-width: 300px;
 }
 
 .bookings-container {

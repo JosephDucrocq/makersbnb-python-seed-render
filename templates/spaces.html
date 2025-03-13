@@ -9,7 +9,7 @@
 
 <body>
     <header>
-        <div class="container navbar">
+        <nav class="navbar">
             <a href="/" class="logo">MakersBnB</a>
             <div>
                 {% if username == "Not logged in" or username == "" %}
@@ -21,11 +21,11 @@
                 <a href="/logout" class="btn btn-secondary">Log Out</a>
                 {% endif %}
             </div>
-        </div>
+        </nav>
     </header>
 
     <main>
-        <div class="container">
+        <div class="container" style=margin-top:20px>
             <div class="mb-4">
                 <h1 class="mb-2">Discover unique spaces</h1>
                 <p>Find your perfect stay from our selection of unique accommodations.</p>
