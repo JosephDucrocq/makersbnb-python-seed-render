@@ -256,7 +256,8 @@ def get_individual_user(username):
     user = user_repository.find_by_username(username)
     spaces = space_repository.find_by_user_id(user.id)
     logged_in_username = f"{session['username']}"
-    
+    if logged_in_username != username:
+        return redirect('/')
     return render_template(
         "single_user.html",
         user=user,
