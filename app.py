@@ -1,3 +1,4 @@
+import functools
 import os
 from flask import Flask, request, render_template, session, redirect, url_for
 from lib.database_connection import get_flask_database_connection
@@ -11,16 +12,14 @@ from lib.booking import Booking
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
 
-
 def login_required(func):
-    def secure_function():
+    @functools.wraps(func)
+    def secure_function(*args, **kwargs):
         if "username" not in session or session["username"] == None:
-            session["url"] = url_for("create_new_space")
-            return redirect(("/login"))
-        return func()
+            return redirect(url_for("login", next=request.url))
+        return func(*args, **kwargs)
 
     return secure_function
-
 
 # WELCOME ROUTES
 @app.route("/", methods=["GET"])
@@ -81,10 +80,11 @@ def login():
     users_repository = UserRepository(_connection)
     attempted_user = request.form["username"]
     password = request.form["password"]
+    next_url = request.form.get("next")
     if users_repository.check_password(attempted_user, password):
         session["username"] = attempted_user
-        if "url" in session:
-            return redirect(session["url"])
+        if next_url:
+            return redirect(next_url)
         return redirect("/")
     else:
         return redirect("/login")
@@ -123,9 +123,7 @@ def display_spaces_page():
 def new_space_form():
     username = f"{session['username']}"
     return render_template("create_new_space.html", username=username)
-    # else:
-    #     username = "Not logged in"
-    #     return render_template("create_new_space.html", username=username)
+
 
 
 @app.route("/spaces/new", methods=["POST"])
@@ -260,17 +258,14 @@ def get_individual_user(username):
 
 
 @app.route("/book/<space_id>", methods=["GET"])
+@login_required
 def book_space(space_id):
     """Display booking page for a space with an interactive calendar"""
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     space = repository.find(space_id)
+    username = f"{session['username']}"
 
-    # Check if user is logged in
-    if "username" in session and session["username"] != None:
-        username = f"{session['username']}"
-    else:
-        username = "Not logged in"
 
     return render_template("booking.html", username=username, space=space)
 
