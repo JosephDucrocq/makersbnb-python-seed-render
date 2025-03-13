@@ -345,6 +345,14 @@ input[type="submit"]:hover {
     margin: var(--spacing-lg) 0;
 }
 
+.preview-spaces-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+}
+
 .space-card {
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -355,7 +363,19 @@ input[type="submit"]:hover {
     color: var(--text-dark);
     border: 1px solid var(--border);
     margin: 10px 10px;
-    padding: var(--spacing-md)
+    /* padding: var(--spacing-md) */
+}
+.preview-space-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
+    text-decoration: none;
+    color: var(--text-dark);
+    border: 1px solid var(--border);
+    margin: 10px 10px;
+    padding: var(--spacing-md);
 }
 
 /* .founder-card {

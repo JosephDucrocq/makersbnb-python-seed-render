@@ -10,7 +10,7 @@
 
 <body>
   <header>
-    <div class="container navbar">
+    <nav class="navbar">
       <a href="/" class="logo">MakersBnB</a>
       <div>
         {% if username == "Not logged in"%}
@@ -22,11 +22,11 @@
         <a href="/logout" class="btn btn-secondary">Log Out</a>
         {% endif %}
       </div>
-    </div>
+    </nav>
   </header>
 
   <main>
-    <div class="container" style="max-width: 500px;">
+    <div class="container vm-25" style="max-width: 500px;">
         <h1 class="text-center mb-4">Contact us</h1>
 
         <form action="/form" method="POST" class="mb-4">
@@ -55,12 +55,12 @@
   <footer>
     <div class="container footer-content">
       <p>© 2025 MakersBnB, Inc.</p>
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="/spaces">Spaces</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </div>
+    </div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/spaces">Spaces</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
     </div>
   </footer>
 </body>
