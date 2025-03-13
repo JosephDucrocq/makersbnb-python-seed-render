@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Get space data from the global spaceData object set in the HTML
+    // Get price from the global spaceData object
     const pricePerNight = parseFloat(window.spaceData.price);
     const serviceFeeRate = 0.12; // 12% service fee
 
-    // Get availability data from the window.spaceData.availabilityData object
-    // In a real app, this would be the dates_available_dict from the Space object
+    // Use availability data from space
     const availabilityData = window.spaceData.availabilityData || {};
 
-    // Initialize calendar state
     let currentDate = new Date();
     let selectedStartDate = null;
     let selectedEndDate = null;
@@ -26,12 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalPriceElement = document.getElementById('total-price');
     const confirmButton = document.getElementById('confirm-booking');
 
-    // Form hidden fields
-    const formCheckIn = document.getElementById('form-check-in');
-    const formCheckOut = document.getElementById('form-check-out');
-    const formNights = document.getElementById('form-nights');
-    const formTotalPrice = document.getElementById('form-total-price');
-
     // Initialize calendar
     renderCalendar();
 
@@ -44,6 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
     nextButton.addEventListener('click', () => {
         currentDate.setMonth(currentDate.getMonth() + 1);
         renderCalendar();
+    });
+
+    document.getElementById('booking-form').addEventListener('submit', function (event) {
+        // Update form fields before submission
+        updateFormFields();
     });
 
     // Calendar rendering function
@@ -82,24 +79,21 @@ document.addEventListener('DOMContentLoaded', function () {
             const date = new Date(year, month, day);
             const dateString = formatDate(date);
 
-            // Check if this date is available - only if the date is in the availability dict
-            // and the value is true, and the date is not in the past
-            const isPastDate = date < new Date(new Date().setHours(0, 0, 0, 0));
-            const isAvailable = !isPastDate && availabilityData[dateString] === true;
+            // Check if this date is available
+            const isAvailable = availabilityData[dateString] !== undefined ?
+                availabilityData[dateString] : true;
 
             const dayElement = createDayElement(day, false, isAvailable);
 
-            // Check if this is a selected date or in range
+            // Check if this is a selected date
             if (selectedStartDate && selectedEndDate) {
                 const currentDate = new Date(year, month, day);
-                if (isSameDay(currentDate, selectedStartDate) || isSameDay(currentDate, selectedEndDate)) {
+                if (currentDate >= selectedStartDate && currentDate <= selectedEndDate) {
                     dayElement.classList.add('selected');
-                } else if (currentDate > selectedStartDate && currentDate < selectedEndDate) {
-                    dayElement.classList.add('in-range');
                 }
             } else if (selectedStartDate) {
                 const currentDate = new Date(year, month, day);
-                if (isSameDay(currentDate, selectedStartDate)) {
+                if (currentDate.getTime() === selectedStartDate.getTime()) {
                     dayElement.classList.add('selected');
                 }
             }
@@ -176,69 +170,74 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${year}-${month}-${day}`;
     }
 
-    // Check if two dates are the same day
-    function isSameDay(date1, date2) {
-        return date1.getFullYear() === date2.getFullYear() &&
-            date1.getMonth() === date2.getMonth() &&
-            date1.getDate() === date2.getDate();
-    }
-
     // Update booking summary based on selected dates
     function updateBookingSummary() {
         if (selectedStartDate) {
             checkInDateElement.textContent = formatDateForDisplay(selectedStartDate);
-            formCheckIn.value = formatDate(selectedStartDate);
 
             if (selectedEndDate) {
                 checkOutDateElement.textContent = formatDateForDisplay(selectedEndDate);
-                formCheckOut.value = formatDate(selectedEndDate);
 
                 // Calculate nights
                 const nights = Math.floor((selectedEndDate - selectedStartDate) / (1000 * 60 * 60 * 24));
                 nightsCountElement.textContent = nights;
                 priceNightsElement.textContent = nights;
-                formNights.value = nights;
 
                 // Calculate prices
                 const subtotal = nights * pricePerNight;
                 const serviceFee = subtotal * serviceFeeRate;
                 const total = subtotal + serviceFee;
 
-                subtotalElement.textContent = `£${subtotal.toFixed(2)}`;
+                subtotalElement.textContent = `£${subtotal}`;
                 serviceFeeElement.textContent = `£${serviceFee.toFixed(2)}`;
                 totalPriceElement.textContent = `£${total.toFixed(2)}`;
-                formTotalPrice.value = total.toFixed(2);
 
                 // Enable confirm button
                 confirmButton.disabled = false;
+
+                // Update hidden form fields
+                updateFormFields();
             } else {
                 checkOutDateElement.textContent = 'Select a date';
-                formCheckOut.value = '';
-                resetPriceDisplay();
+                nightsCountElement.textContent = '0';
+                priceNightsElement.textContent = '0';
+                subtotalElement.textContent = '£0';
+                serviceFeeElement.textContent = '£0';
+                totalPriceElement.textContent = '£0';
+                confirmButton.disabled = true;
             }
         } else {
             checkInDateElement.textContent = 'Select a date';
-            formCheckIn.value = '';
             checkOutDateElement.textContent = 'Select a date';
-            formCheckOut.value = '';
-            resetPriceDisplay();
+            nightsCountElement.textContent = '0';
+            priceNightsElement.textContent = '0';
+            subtotalElement.textContent = '£0';
+            serviceFeeElement.textContent = '£0';
+            totalPriceElement.textContent = '£0';
+            confirmButton.disabled = true;
         }
-    }
-
-    function resetPriceDisplay() {
-        nightsCountElement.textContent = '0';
-        priceNightsElement.textContent = '0';
-        subtotalElement.textContent = '£0';
-        serviceFeeElement.textContent = '£0';
-        totalPriceElement.textContent = '£0';
-        formNights.value = '0';
-        formTotalPrice.value = '0';
-        confirmButton.disabled = true;
     }
 
     // Format date for display (e.g., "Mon, Mar 15, 2025")
     function formatDateForDisplay(date) {
         const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
         return date.toLocaleDateString('en-US', options);
+    }
+
+    // Update form fields with current values
+    function updateFormFields() {
+        if (selectedStartDate && selectedEndDate) {
+            document.getElementById('form-check-in').value = formatDate(selectedStartDate);
+            document.getElementById('form-check-out').value = formatDate(selectedEndDate);
+
+            const nights = Math.floor((selectedEndDate - selectedStartDate) / (1000 * 60 * 60 * 24));
+            document.getElementById('form-nights').value = nights;
+
+            const subtotal = nights * pricePerNight;
+            const serviceFee = subtotal * serviceFeeRate;
+            const total = subtotal + serviceFee;
+
+            document.getElementById('form-total-price').value = total.toFixed(2);
+        }
     }
 });
