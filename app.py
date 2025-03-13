@@ -12,6 +12,7 @@ from lib.booking import Booking
 app = Flask(__name__)
 app.secret_key = "this_is_a_super_secret_key"
 
+
 def login_required(func):
     @functools.wraps(func)
     def secure_function(*args, **kwargs):
@@ -21,12 +22,13 @@ def login_required(func):
 
     return secure_function
 
+
 # WELCOME ROUTES
 @app.route("/", methods=["GET"])
 def welcome():
     if session.get("username") == False:
         session["username"] = None
-    if "username" in session and session["username"] != None:
+    if session.get("username") and session["username"] != None:
         username = f"{session['username']}"
         _connection = get_flask_database_connection(app)
         users_repository = UserRepository(_connection)
@@ -123,7 +125,6 @@ def display_spaces_page():
 def new_space_form():
     username = f"{session['username']}"
     return render_template("create_new_space.html", username=username)
-
 
 
 @app.route("/spaces/new", methods=["POST"])
@@ -265,7 +266,6 @@ def book_space(space_id):
     repository = SpaceRepository(connection)
     space = repository.find(space_id)
     username = f"{session['username']}"
-
 
     return render_template("booking.html", username=username, space=space)
 
