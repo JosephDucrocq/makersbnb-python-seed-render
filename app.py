@@ -237,17 +237,8 @@ def display_about_page():
         },
     ]
 
-    if "username" in session and session["username"] != None:
-        username = f"{session['username']}"
-        return render_template(
-            "about.html", spaces=spaces, username=username, founders=founders
-        )
-    else:
-        username = "Not logged in"
-        return render_template(
-            "about.html", founders=founders, spaces=spaces, username=username
-        )
-
+    username = _get_logged_in_user()
+    return render_template("about.html", spaces=spaces, username=username, founders=founders)
 
 @app.route("/user/<username>", methods=["GET"])
 @login_required
@@ -385,13 +376,7 @@ def user_bookings(username):
 
 @app.route("/contact", methods=["GET"])
 def contact():
-
-    # Check if user is logged in
-    if "username" in session and session["username"] != None:
-        username = f"{session['username']}"
-    else:
-        username = "Not logged in"
-
+    username = _get_logged_in_user()
     return render_template("contact.html", username=username)
 
 @app.route("/form", methods=["POST"])
@@ -430,15 +415,23 @@ def form():
     server.quit()
 
     # Check if user is logged in
-    if "username" in session and session["username"] != None:
-        username = f"{session['username']}"
-    else:
-        username = "Not logged in"
-
+    username = _get_logged_in_user()
     return render_template("form.html", username=username, name=name)
 
 
 # CONTACT ROUTE
+
+@app.errorhandler(404)
+@app.errorhandler(405)
+def handle_http_error(e):
+    username = _get_logged_in_user()
+    error_code = e.code
+    return render_template(f'{error_code}.html', username=username), error_code
+
+def _get_logged_in_user():
+    if "username" in session and session["username"] is not None:
+        return session["username"]
+    return "Not logged in"
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
