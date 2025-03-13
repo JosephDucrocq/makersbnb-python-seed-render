@@ -33,14 +33,12 @@
   </br>
     <div class="container text-center">
       <h1 class="mb-2">About us</h1>
-      <p class="mb-4">Welcome to MakersBnB – your go-to platform for affordable and unique spaces. Founded in 2025 by
-        six software engineers
-        – Andrew, Will, Jack, Joseph, John and Luis – we set out to make finding and sharing spaces easier and more
-        accessible for everyone.
-        Whether you need a creative studio, a cozy retreat, or a productive workspace, MakersBnB connects you with the
-        perfect spot at a price
-        that works. We believe that great ideas and experiences start with the right space – and we’re here to help you
-        find it.
+      <p class="mb-4">Welcome to MakersBnB – your destination for discovering unique and affordable spaces.
+        Founded in 2025 by six software engineers – John, Luis, Jack, Joseph, Will, and Andrew – MakersBnB
+        was created to make finding and sharing spaces simple, affordable, and stress-free.
+        Whether you're looking for a stylish city villa, a peaceful countryside farm, or even a magical retreat,
+        we’ve got you covered. From the heart of London to the depths of fantasy, we believe that every
+        great experience starts with the perfect space – and we’re here to help you find it.
       </p>
     </div>
   </br>
@@ -50,13 +48,15 @@
         <h1 class="mb-2">Founders</h1>
       </div>
       <div class="founders-grid">
-        {% for name, image in founders.items() %}
-        <div class="founder-card">
-          <img src="{{image}}" alt="{{name}}">
-          <h3>{{name}}</h3>
-          <!-- <p>Airbnb Co-founder and Chief Executive Officer</p> -->
-        </div>
-        {% endfor %}
+        {% for founder in founders %}
+        <a href="{{founder['ghprofile']}}">
+          <div class="founder-card">
+            <img src="{{founder['image']}}" alt="{{founder['name']}}">
+            <h3>{{founder['name']}}</h3>
+            <!-- <p>MakersBnB Co-founder and Chief Executive Officer</p> -->
+          </div>
+        </a>
+          {% endfor %}
       </div>  
     </div>  
   </main>
