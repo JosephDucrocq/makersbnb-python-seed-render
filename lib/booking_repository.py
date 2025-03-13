@@ -15,7 +15,7 @@ class BookingRepository:
         )
         bookings = []
         for row in rows:
-    
+
             # Convert requested_dates from string to list if stored as JSON
             requested_dates = row["requested_dates"]
             if isinstance(requested_dates, str):
@@ -27,15 +27,13 @@ class BookingRepository:
 
             booking = Booking.from_database(
                 row["id"],
-                requested_dates,
                 row["user_id"],
                 row["space_id"],
-                row.get("start_date"),
-                row.get("end_date"),
+                row["requested_dates_list"],
                 row.get("subtotal", 0),
                 row.get("service_fee", 0),
                 row.get("total", 0),
-                row.get("status", "confirmed"),
+                row.get("approved", False),
             )
             bookings.append(booking)
         return bookings
@@ -50,8 +48,8 @@ class BookingRepository:
         row = rows[0]
 
         # Convert requested_dates from string to list if stored as JSON
-        requested_dates = row["requested_dates"]
-        if isinstance(requested_dates, str):
+        requested_dates_list = row["requested_dates_list"]
+        if isinstance(requested_dates_list, str):
             try:
                 requested_dates = json.loads(requested_dates)
             except:
@@ -60,15 +58,13 @@ class BookingRepository:
 
         return Booking.from_database(
             row["id"],
-            requested_dates,
             row["user_id"],
             row["space_id"],
-            row.get("start_date"),
-            row.get("end_date"),
+            row["requested_dates_list"],
             row.get("subtotal", 0),
             row.get("service_fee", 0),
             row.get("total", 0),
-            row.get("status", "confirmed"),
+            row.get("approved", False),
         )
 
     def find_by_space(self, space_id):
@@ -88,15 +84,13 @@ class BookingRepository:
 
             booking = Booking.from_database(
                 row["id"],
-                requested_dates,
                 row["user_id"],
                 row["space_id"],
-                row.get("start_date"),
-                row.get("end_date"),
+                row["requested_dates_list"],
                 row.get("subtotal", 0),
                 row.get("service_fee", 0),
                 row.get("total", 0),
-                row.get("status", "confirmed"),
+                row.get("approved", False),
             )
             bookings.append(booking)
         return bookings
@@ -118,41 +112,37 @@ class BookingRepository:
 
             booking = Booking.from_database(
                 row["id"],
-                requested_dates,
                 row["user_id"],
                 row["space_id"],
-                row.get("start_date"),
-                row.get("end_date"),
+                row["requested_dates_list"],
                 row.get("subtotal", 0),
                 row.get("service_fee", 0),
                 row.get("total", 0),
-                row.get("status", "confirmed"),
+                row.get("approved", False),
             )
             bookings.append(booking)
         return bookings
 
     def create(self, booking):
-        # Convert the requested_dates list to JSON string for storage
-        requested_dates_json = json.dumps(booking.requested_dates)
+        # Convert the requested_dates_list to JSON string for storage
+        requested_dates_json = json.dumps(booking.requested_dates_list)
 
         rows = self._connection.execute(
             """
             INSERT INTO bookings 
-            (requested_dates, user_id, space_id, start_date, end_date, 
-            subtotal, service_fee, total, status)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (user_id, space_id, requested_dates_list, 
+            subtotal, service_fee, total, approved)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             RETURNING id
             """,
             [
-                requested_dates_json,
                 booking.user_id,
                 booking.space_id,
-                booking.start_date,
-                booking.end_date,
+                str(requested_dates_json),
                 booking.subtotal,
                 booking.service_fee,
                 booking.total,
-                booking.status,
+                booking.approved,
             ],
         )
         booking.id = rows[0]["id"]
