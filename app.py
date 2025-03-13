@@ -23,6 +23,14 @@ def login_required(func):
     return secure_function
 
 
+def update_dates_dictionary_from_requested_dates_list(
+    available_dates_dict, requested_dates_list
+):
+    for date in requested_dates_list:
+        available_dates_dict[date] = False
+    return available_dates_dict
+
+
 # WELCOME ROUTES
 @app.route("/", methods=["GET"])
 def welcome():
@@ -313,6 +321,10 @@ def confirm_booking(space_id):
     # Save booking to database
     booking = booking_repository.create(booking)
 
+    updated_dates_dict = update_dates_dictionary_from_requested_dates_list(
+        space.dates_available_dict, booking.requested_dates_list
+    )
+    space_repository.update_available_dates(updated_dates_dict, booking.space_id)
     # Redirect to confirmation page
     return redirect(f"/bookings/{booking.id}/confirmation")
 

@@ -80,8 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const dateString = formatDate(date);
 
             // Check if this date is available
-            const isAvailable = availabilityData[dateString] !== undefined ?
-                availabilityData[dateString] : true;
+            // A date is available only if it is in the availability dictionary AND its value is true
+            // If it's not in the dictionary or its value is false, it's unavailable
+            const isAvailable = dateString in availabilityData && availabilityData[dateString] === true;
 
             const dayElement = createDayElement(day, false, isAvailable);
 
@@ -177,6 +178,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (selectedEndDate) {
                 checkOutDateElement.textContent = formatDateForDisplay(selectedEndDate);
+
+                // Check if all dates in range are available
+                let allDatesAvailable = true;
+                let currentCheckDate = new Date(selectedStartDate);
+
+                while (currentCheckDate <= selectedEndDate) {
+                    const dateString = formatDate(currentCheckDate);
+                    if (!(dateString in availabilityData && availabilityData[dateString] === true)) {
+                        allDatesAvailable = false;
+                        break;
+                    }
+                    // Move to next day
+                    currentCheckDate.setDate(currentCheckDate.getDate() + 1);
+                }
+
+                if (!allDatesAvailable) {
+                    // Display warning that not all dates are available
+                    checkOutDateElement.textContent = 'Date range includes unavailable dates';
+                    nightsCountElement.textContent = '0';
+                    priceNightsElement.textContent = '0';
+                    subtotalElement.textContent = '£0';
+                    serviceFeeElement.textContent = '£0';
+                    totalPriceElement.textContent = '£0';
+                    confirmButton.disabled = true;
+                    return;
+                }
 
                 // Calculate nights
                 const nights = Math.floor((selectedEndDate - selectedStartDate) / (1000 * 60 * 60 * 24));
