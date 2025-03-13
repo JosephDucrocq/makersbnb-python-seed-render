@@ -66,12 +66,6 @@
                             <div class="booking-card">
                                 <h3 class="space-price mb-2">£{{space.price_per_night}} <span>per night</span></h3>
 
-                                {% if space.availability %}
-                                <span class="availability-badge available">Available</span>
-                                {% else %}
-                                <span class="availability-badge unavailable">Unavailable</span>
-                                {% endif %}
-
                                 <form class="mt-3">
                                     <a href="/book/{{space.id}}" class="btn btn-lg btn-full">Book now</a>
                                 </form>
