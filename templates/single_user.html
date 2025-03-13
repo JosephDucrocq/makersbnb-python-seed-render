@@ -40,24 +40,8 @@
                             <h2 style="margin-bottom: 0">{{ space.name }}</h2>
                             <p class="preview-space-location">{{ space.location }}</p>
                             <p class="preview-space-description">{{ space.description }}</p>
-                            <p class="space-availability">
-                                {% if space.availability %}
-                                <span class="available">Available</span>
-                                {% else %}
-                                <span class="unavailable">Currently Unavailable</span>
-                                {% endif %}
-                            </p>
                             <div class="space-actions">
                                 <a href="/spaces/{{ space.id }}" class="btn btn-secondary">View Details</a>
-                                {% if logged_in_username == user.username %}
-                                <a href="/spaces/{{ space.id }}/toggle-availability" class="btn btn-secondary">
-                                    {% if space.availability %}
-                                    Mark Unavailable
-                                    {% else %}
-                                    Mark Available
-                                    {% endif %}
-                                </a>
-                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -78,23 +62,11 @@
             <div class="bookings-container">
                 <h2>Booking Requests</h2>
                 <div class="booking-links">
-                    <a href="/bookings/received" class="booking-link">
-                        Requests Received
-                        {% if received_count is defined and received_count > 0 %}
-                        <span class="count">{{ received_count }}</span>
-                        {% endif %}
-                    </a>
-                    <a href="/bookings/pending" class="booking-link">
-                        Pending Approvals
-                        {% if pending_count is defined and pending_count > 0 %}
-                        <span class="count">{{ pending_count }}</span>
-                        {% endif %}
-                    </a>
                     <a href="/bookings/confirmed" class="booking-link">
-                        Confirmed Bookings
+                        Manage Properties
                     </a>
                     <a href="/bookings/history" class="booking-link">
-                        Booking History
+                        View Your Booked Spaces
                     </a>
                 </div>
             </div>
