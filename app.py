@@ -245,17 +245,8 @@ def display_about_page():
         },
     ]
 
-    if "username" in session and session["username"] != None:
-        username = f"{session['username']}"
-        return render_template(
-            "about.html", spaces=spaces, username=username, founders=founders
-        )
-    else:
-        username = "Not logged in"
-        return render_template(
-            "about.html", founders=founders, spaces=spaces, username=username
-        )
-
+    username = _get_logged_in_user()
+    return render_template("about.html", spaces=spaces, username=username, founders=founders)
 
 @app.route("/user/<username>", methods=["GET"])
 @login_required
@@ -399,13 +390,7 @@ def manage_bookings():
 
 @app.route("/contact", methods=["GET"])
 def contact():
-
-    # Check if user is logged in
-    if "username" in session and session["username"] != None:
-        username = f"{session['username']}"
-    else:
-        username = "Not logged in"
-
+    username = _get_logged_in_user()
     return render_template("contact.html", username=username)
 
 
@@ -413,7 +398,9 @@ def contact():
 def form():
     name = request.form.get("name")
     email = request.form.get("email")
-    comment = request.form.get("comment")
+    comment = f"SENT FROM:\n {email}\n\nMESSAGE:\n"
+    comment += request.form.get("comment") 
+
 
     msg = EmailMessage()
     msg.set_content(
@@ -423,27 +410,55 @@ def form():
     msg["Subject"] = "Makersbnb: We're Here to Help with Your Issue"
     msg["From"] = "makersbnb2025@gmail.com"
     msg["To"] = email
+
+    work_email = "makersbnb2025@gmail.com"
+
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login("makersbnb2025@gmail.com", gmail_secret)
-    server.send_message(msg)
 
-    # msg.set_content(comment)
-    # msg['Subject'] = f"Query ticket raised from {name}"
-    # msg['From'] = "makersbnb2025@gmail.com"
-    # msg['To'] = "makersbnb2025@gmail.com"
-    # server.send_message(msg)
+
+    email_list = [
+        {
+            "email": email,
+            "content": f"Thank you {name}!\n\nYour comment has been received and we will respond within 2 working days.",
+            "subject": 'Makersbnb: We\'re Here to Help with Your Issue',
+        },
+        {
+            "email": work_email,
+            "content": comment,
+            "subject": f"DO NOT REPLY - Query ticket raised from: {name}"}
+            ]
+    
+    for mail in email_list:
+        msg = EmailMessage()
+        msg.set_content(mail['content'], subtype="plain", charset='us-ascii')
+        msg['Subject'] = mail['subject']
+        msg['From'] = work_email
+        msg['To'] = mail['email']
+        server.send_message(msg)
+    
+    server.quit()
+
 
     # Check if user is logged in
-    if "username" in session and session["username"] != None:
-        username = f"{session['username']}"
-    else:
-        username = "Not logged in"
-
+    username = _get_logged_in_user()
     return render_template("form.html", username=username, name=name)
 
 
 # CONTACT ROUTE
+
+@app.errorhandler(404)
+@app.errorhandler(405)
+def handle_http_error(e):
+    username = _get_logged_in_user()
+    error_code = e.code
+    return render_template(f'{error_code}.html', username=username), error_code
+
+def _get_logged_in_user():
+    if "username" in session and session["username"] is not None:
+        return session["username"]
+    return "Not logged in"
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
