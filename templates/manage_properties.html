@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakersBnB - Manage Properties</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="/" class="logo">MakersBnB</a>
+            <div>
+                <span class="mr-3">Welcome, {{username}}</span>
+                <a href="/user/{{username}}" class="btn btn-secondary">View Profile</a>
+                <a href="/logout" class="btn btn-secondary">Log Out</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container vm-25">
+            <div class="mb-4">
+                <a href="/user/{{username}}" class="btn btn-secondary btn-sm">&larr; Back to profile</a>
+            </div>
+
+            <h1 class="mb-4">Manage Your Properties</h1>
+
+            {% if booking_details %}
+            {% for item in booking_details %}
+            <div class="booking-request">
+                <div class="booking-header">
+                    <h2>Booking Request #{{booking.id}}</h2>
+                    {% if item.booking.approved %}
+                    <span class="booking-status status-approved">Approved</span>
+                    {% else %}
+                    <span class="booking-status status-pending">Pending</span>
+                    {% endif %}
+                </div>
+
+                <div class="booking-details">
+                    <img src="{{item.space.image_content}}" alt="{{item.space.name}}" class="booking-image">
+
+                    <div class="booking-info">
+                        <h3>{{item.space.name}}</h3>
+                        <p>{{item.space.location}}</p>
+
+                        <div class="booking-dates">
+                            <p><strong>Guest:</strong> {{item.requester.username}}</p>
+                            <p><strong>Check-in:</strong> {{item.booking.requested_dates_list[0][2:-1]}}</p>
+                            <p><strong>Check-out:</strong> {{item.booking.requested_dates_list[-1][2:-2]}}</p>
+                            <p><strong>Nights:</strong> {{item.booking.nights}}</p>
+                        </div>
+
+                        <div class="booking-price">
+                            <p>Total: £{{item.booking.total}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if not item.booking.approved %}
+                <div class="booking-actions">
+                    <form action="/approve-booking/{{item.booking.id}}" method="POST">
+                        <button type="submit" class="btn">Approve Booking</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="no-bookings">
+                <h2>No booking requests yet</h2>
+                <p>When guests request to book one of your spaces, they'll appear here.</p>
+                <a href="/spaces/new" class="btn mt-3">List a New Space</a>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>© 2025 MakersBnB, Inc.</p>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/spaces">Spaces</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </footer>
+</body>
+
+</html>

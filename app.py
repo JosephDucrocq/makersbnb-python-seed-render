@@ -191,11 +191,15 @@ def get_individual_space(space_id):
     if "username" in session and session["username"] != None:
         username = f"{session['username']}"
         if users_repository.find_by_username(username).id == space.user_id:
-            trying_to_view_own_space = True 
+            trying_to_view_own_space = True
     else:
         username = "Not logged in"
-    return render_template("single_space.html", username=username, space=space, trying_to_view_own_space=trying_to_view_own_space)
-
+    return render_template(
+        "single_space.html",
+        username=username,
+        space=space,
+        trying_to_view_own_space=trying_to_view_own_space,
+    )
 
 
 # SPACES ROUTES
@@ -255,7 +259,7 @@ def get_individual_user(username):
     spaces = space_repository.find_by_user_id(user.id)
     logged_in_username = f"{session['username']}"
     if logged_in_username != username:
-        return redirect('/')
+        return redirect("/")
     return render_template(
         "single_user.html",
         user=user,
@@ -354,7 +358,6 @@ def booking_confirmation(booking_id):
 def user_bookings(username):
     """Show a user's bookings"""
 
-
     connection = get_flask_database_connection(app)
     user_repository = UserRepository(connection)
     booking_repository = BookingRepository(connection)
@@ -374,14 +377,22 @@ def user_bookings(username):
     )
 
 
+@app.route("/manage", methods=["GET"])
+@login_required
+def manage_bookings():
+    return render_template("manage_properties.html")
+
+
 # ABOUT ROUTE
 
 # CONTACT ROUTE
+
 
 @app.route("/contact", methods=["GET"])
 def contact():
     username = _get_logged_in_user()
     return render_template("contact.html", username=username)
+
 
 @app.route("/form", methods=["POST"])
 def form():
@@ -390,11 +401,22 @@ def form():
     comment = f"SENT FROM:\n {email}\n\nMESSAGE:\n"
     comment += request.form.get("comment") 
 
+
+    msg = EmailMessage()
+    msg.set_content(
+        f"Thank you {name}!\n\nYour comment has been received and we will respond within 2 working days."
+    )
+
+    msg["Subject"] = "Makersbnb: We're Here to Help with Your Issue"
+    msg["From"] = "makersbnb2025@gmail.com"
+    msg["To"] = email
+
     work_email = "makersbnb2025@gmail.com"
 
     server = smtplib.SMTP("smtp.gmail.com", 587)
     server.starttls()
     server.login("makersbnb2025@gmail.com", gmail_secret)
+
 
     email_list = [
         {
@@ -417,6 +439,7 @@ def form():
         server.send_message(msg)
     
     server.quit()
+
 
     # Check if user is logged in
     username = _get_logged_in_user()
